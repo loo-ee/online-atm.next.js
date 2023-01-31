@@ -8,7 +8,7 @@ export default function UserLayout({
 }) {
   return (
     <div>
-      <div className="mt-28 flex flex-row">
+      <div className="mt-28 flex flex-row justify-center">
         <Controls />
 
         {children}

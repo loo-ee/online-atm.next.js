@@ -33,7 +33,7 @@ export default function Panel({}) {
   });
 
   return (
-    <div className="laptop:p-3 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[500px] laptop:h-[300px] mr-7">
+    <div className="laptop:p-3 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
       <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded">
         <div className="flex flex-col">
           <span className="text-3xl text-white">{User?.user.username}</span>
