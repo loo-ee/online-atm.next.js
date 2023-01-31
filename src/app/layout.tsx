@@ -1,8 +1,6 @@
 import UserContextProvider from '@/contexts/UserContext';
-import Controls from './Controls';
 import './globals.css';
 import Header from './Header';
-import Panel from './Panel';
 
 export default function RootLayout({
   children,
@@ -16,13 +14,7 @@ export default function RootLayout({
         <UserContextProvider>
           <Header />
 
-          <div className="mt-28 flex flex-row">
-            <Controls />
-
-            {children}
-
-            <Panel />
-          </div>
+          {children}
         </UserContextProvider>
       </body>
     </html>
