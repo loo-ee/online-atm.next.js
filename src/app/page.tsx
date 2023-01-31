@@ -10,7 +10,10 @@ export default function Home({}) {
   const navigator = useRouter();
 
   useEffect(() => {
-    if (User?.user.username == '???') {
+    if (User?.user.username != '???') {
+      if (User?.user.isAdmin) navigator.push('/admin/');
+      navigator.push('/user/');
+    } else {
       navigator.push('/login/');
     }
   });

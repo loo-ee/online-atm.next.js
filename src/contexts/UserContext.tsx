@@ -16,7 +16,7 @@ export default function UserContextProvider({
   children: React.ReactNode;
 }) {
   const userAcc: UserModel = {
-    username: '???',
+    username: 'test',
     password: '???',
     email: '???',
     avatar: null,
