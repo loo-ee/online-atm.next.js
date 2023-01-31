@@ -49,17 +49,31 @@ export default function Controls({}) {
           operation={switchAdminModes}
         />
       ) : (
-        <SettingsButton
-          text="Messages"
-          imageSrc="/images/message.png"
-          operation={goToMessages}
-        />
+        <>
+          <SettingsButton
+            text="Home"
+            imageSrc="/images/home.png"
+            operation={returnHome}
+          />
+
+          <SettingsButton
+            text="Messages"
+            imageSrc="/images/message.png"
+            operation={goToMessages}
+          />
+        </>
       )}
 
       <SettingsButton
         text="Logout"
         imageSrc="/images/settings.png"
         operation={logout}
+      />
+
+      <SettingsButton
+        text="Go Back"
+        imageSrc="/images/turn-back.png"
+        operation={goBack}
       />
     </div>
   );
