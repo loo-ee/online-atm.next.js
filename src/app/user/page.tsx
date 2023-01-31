@@ -1,19 +1,17 @@
+import { backendUrl } from '@/util/globalVars';
+import { BankModel } from '@/util/types';
 import Image from 'next/image';
 
-async function getBanks() {
-  const res = await fetch(
-    'https://goldfish-app-3tklk.ondigitalocean.app/banks/',
-    { cache: 'no-store' }
-  );
+export async function getBanks(): Promise<BankModel[] | null> {
+  const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
 
-  if (!res.ok) return;
+  if (!res.ok) return null;
 
   return res.json();
 }
 
 export default async function UserPage({}) {
-  const banks = await getBanks();
-  console.log(banks);
+  const banks: BankModel[] | null = await getBanks();
 
   return (
     <div className="bg-secondary border-black border-4 tablet:w-[700px] phone:w-[300px] rounded-xl p-6 mx-6 flex flex-col items-center">

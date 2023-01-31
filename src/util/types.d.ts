@@ -1,5 +1,3 @@
-export const backendUrl = 'https://goldfish-app-3tklk.ondigitalocean.app/';
-
 export type BankModel = {
   id: number;
   bankName: string;
