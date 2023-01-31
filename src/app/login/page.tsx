@@ -1,11 +1,10 @@
 'use client';
 
-import { UserContext } from '@/contexts/UserContext';
 import { useRouter } from 'next/navigation';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 
 export default function Login({}) {
-  const User = useContext(UserContext);
+  // const User = useContext(UserContext);
 
   const navigator = useRouter();
 
