@@ -1,3 +1,5 @@
+import UserContextProvider from '@/contexts/UserContext';
+import Controls from './Controls';
 import './globals.css';
 import Header from './Header';
 
@@ -9,10 +11,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body>
-        <Header />
+      <body className="flex flex-col">
+        <UserContextProvider>
+          <Header />
 
-        {children}
+          <div className="mt-28 flex flex-row">
+            <Controls />
+            {children}
+          </div>
+        </UserContextProvider>
       </body>
     </html>
   );
