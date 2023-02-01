@@ -2,7 +2,7 @@ import { backendUrl } from '@/util/globalVars';
 import { BankModel } from '@/util/types';
 
 export async function getBanks() {
-  const res = await fetch(`${backendUrl}/banks/`);
+  const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
 
   if (!res.ok) return null;
 
