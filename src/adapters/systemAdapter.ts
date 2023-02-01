@@ -19,3 +19,13 @@ export async function getBank() {
 
   return bank;
 }
+
+export async function getAccounts(email: string) {
+  const res = await fetch(`${backendUrl}/accounts?email=${email}`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) return null;
+
+  return res.json();
+}
