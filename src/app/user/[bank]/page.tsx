@@ -1,11 +1,20 @@
-import { getBank, getBanks } from '@/adapters/systemAdapter';
+import { getBanks } from '@/adapters/systemAdapter';
+import { SystemContext } from '@/contexts/SystemContext';
 import { BankModel } from '@/util/types';
-import Image from 'next/image';
+import { useContext } from 'react';
 import BankMenu from './BankMenu';
 
 export const dynamicParams = false;
 
-export default async function Bank({ params }: { params: { bank: string } }) {
+export default function Bank({ params }: { params: { bank: string } }) {
+  const System = useContext(SystemContext);
+
+  System?.banks.forEach((bank) => {
+    if (bank.bankName == params.bank) {
+      System.setSelectedBank(bank);
+    }
+  });
+
   return <BankMenu />;
 }
 

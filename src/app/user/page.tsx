@@ -1,10 +1,15 @@
+import { SystemContext } from '@/contexts/SystemContext';
 import { BankModel } from '@/util/types';
 import Image from 'next/image';
+import { useContext } from 'react';
 import BankCard from './BankCard';
 import { getBanks } from './layout';
 
 export default async function UserPage({}) {
   const banks: BankModel[] | null = await getBanks();
+  const System = useContext(SystemContext);
+
+  if (banks) System?.setBanks(banks);
 
   return (
     <div className="flex flex-col tablet:w-[300px] laptop:w-[700px] phone:w-[100px] items-center">

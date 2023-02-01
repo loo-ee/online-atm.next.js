@@ -3,9 +3,7 @@
 import { getAccounts, getBank } from '@/adapters/systemAdapter';
 import { nullAccount, nullBank } from '@/util/globalVars';
 import { AccountModel, BankModel } from '@/util/types';
-import Error from 'next/error';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const colorScheme = {
@@ -36,18 +34,18 @@ export default function BankMenu({}) {
 
   async function fetchBank() {
     const bankSelected: BankModel = await getBank();
-    console.log(bankSelected);
     setBankSelected(bankSelected);
   }
 
   async function fetchAccounts() {
     const foundAccounts: AccountModel[] | null = await getAccounts(
-      'j@fake.com'
+      'jl@fake.com'
     );
 
     if (!foundAccounts) return;
 
     setAccounts(foundAccounts);
+    setSelectedAccount(foundAccounts[0]);
   }
 
   useEffect(() => {
@@ -77,12 +75,12 @@ export default function BankMenu({}) {
               .primaryColor
           }
         >
-          {/* <DropDownMenu bankName={bankSelected.bankName} accounts={} /> */}
-          {/* <DropDownMenu
-            setAccountForBankPage={setAccountForBank}
-            isAccountAndPassMatched={passwordsAreMatched}
-            colorScheme={colorScheme}
-          /> */}
+          <DropDownMenu
+            bankName={bankSelected.bankName}
+            accounts={accounts}
+            setAuthState={setAuthState}
+            setSelectedAccount={setSelectedAccount}
+          />
         </div>
 
         <div
@@ -110,11 +108,11 @@ export default function BankMenu({}) {
         <div className="flex flex-col">
           <span className="text-white phone:text-md laptop:text-2xl">
             <span className="text-u_gray">Name: </span>
-            {/* {accountForBank?.name} */} accountForBank.name
+            {selectedAccount.name}
           </span>
           <span className="text-white phone:text-sm laptop:text-xl">
             <span className="text-u_gray">Acc #: </span>
-            {/* {accountForBank?.accountNumber} */} accountNumber
+            {selectedAccount.accountNumber}
           </span>
         </div>
 
