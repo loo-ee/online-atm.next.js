@@ -2,14 +2,14 @@ import { backendUrl } from '@/util/globalVars';
 import { BankModel } from '@/util/types';
 
 export async function getBanks() {
-  const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
+  const res = await fetch(`${backendUrl}/banks/`);
 
   if (!res.ok) return null;
 
   return res.json();
 }
 
-export async function getBank() {
+export async function getBank(bankName: string) {
   const bank: BankModel = {
     id: 1,
     bankName: 'BDO',

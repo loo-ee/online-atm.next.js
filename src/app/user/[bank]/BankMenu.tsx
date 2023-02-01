@@ -1,10 +1,11 @@
 'use client';
 
 import { getAccounts, getBank } from '@/adapters/systemAdapter';
+import { SystemContext } from '@/contexts/SystemContext';
 import { nullAccount, nullBank } from '@/util/globalVars';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 const colorScheme = {
   BDO: {
@@ -25,17 +26,11 @@ const colorScheme = {
   },
 };
 
-export default function BankMenu({}) {
+export default function BankMenu({ bank }: { bank: BankModel }) {
   const [accounts, setAccounts] = useState<AccountModel[]>([]);
   const [selectedAccount, setSelectedAccount] =
     useState<AccountModel>(nullAccount);
-  const [bankSelected, setBankSelected] = useState<BankModel>(nullBank);
   const [authState, setAuthState] = useState(false);
-
-  async function fetchBank() {
-    const bankSelected: BankModel = await getBank();
-    setBankSelected(bankSelected);
-  }
 
   async function fetchAccounts() {
     const foundAccounts: AccountModel[] | null = await getAccounts(
@@ -49,7 +44,6 @@ export default function BankMenu({}) {
   }
 
   useEffect(() => {
-    fetchBank();
     fetchAccounts();
   }, []);
 
@@ -59,24 +53,22 @@ export default function BankMenu({}) {
         <div
           className={
             'phone:w-[150px] laptop:w-[300px] phone:mb-2 laptop:mb-6 p-3 rounded-lg' +
-            colorScheme[bankSelected?.bankName as keyof typeof colorScheme]
-              .primaryColor
+            colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
           <span className="text-white phone:text-lg laptop:text-3xl font-bold">
-            Connected to {bankSelected?.bankName}
+            Connected to {bank.bankName}
           </span>
         </div>
 
         <div
           className={
             'text-white p-3 rounded-lg phone:w-[50px] laptop:w-[150px] h-12' +
-            colorScheme[bankSelected?.bankName as keyof typeof colorScheme]
-              .primaryColor
+            colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
           <DropDownMenu
-            bankName={bankSelected.bankName}
+            bankName={bank.bankName}
             accounts={accounts}
             setAuthState={setAuthState}
             setSelectedAccount={setSelectedAccount}
@@ -86,8 +78,7 @@ export default function BankMenu({}) {
         <div
           className={
             'text-white p-3 rounded-lg phone:w-[50px] text-center laptop:w-[130px] h-12' +
-            colorScheme[bankSelected?.bankName as keyof typeof colorScheme]
-              .primaryColor
+            colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
           {/* <button onClick={() => console.log('Toggle account creation')}> */}
@@ -101,8 +92,7 @@ export default function BankMenu({}) {
       <div
         className={
           'phone:w-[280px] laptop:w-[600px] mt-2 rounded-lg phone:p-2 laptop:p-6 flex flex-row items-center justify-between' +
-          colorScheme[bankSelected?.bankName as keyof typeof colorScheme]
-            .primaryColor
+          colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
         }
       >
         <div className="flex flex-col">
@@ -118,12 +108,12 @@ export default function BankMenu({}) {
 
         <div className="flex flex-row items-center">
           <span className="phone:text-xl laptop:text-5xl text-white">
-            {bankSelected?.bankName}
+            {bank.bankName}
           </span>
 
           <Image
-            src={bankSelected!.thumbnail}
-            alt="bankSelected? thumbnail"
+            src={bank.thumbnail}
+            alt="System? selectedBank.bankName "
             width={50}
             height={40}
             className="rounded ml-5"
