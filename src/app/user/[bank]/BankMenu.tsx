@@ -1,32 +1,38 @@
 'use client';
 
-import { getBank } from '@/adapters/systemAdapter';
-import { nullBank } from '@/util/globalVars';
-import { BankModel } from '@/util/types';
+import { getAccounts, getBank } from '@/adapters/systemAdapter';
+import { nullAccount, nullBank } from '@/util/globalVars';
+import { AccountModel, BankModel } from '@/util/types';
+import Error from 'next/error';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function BankMenu({}) {
-  const [bankSelected, setBankSelected] = useState<BankModel>(nullBank);
+const colorScheme = {
+  BDO: {
+    primaryColor: ' bg-primary',
+    secondaryColor: ' bg-blue-600',
+  },
+  BPI: {
+    primaryColor: ' bg-tertiary',
+    secondaryColor: ' bg-red-400',
+  },
+  LANDBANK: {
+    primaryColor: ' bg-green-600',
+    secondaryColor: ' bg-green-400',
+  },
+  null: {
+    primaryColor: ' bg-white',
+    secondaryColor: ' bg-white',
+  },
+};
 
-  const colorScheme = {
-    BDO: {
-      primaryColor: ' bg-primary',
-      secondaryColor: ' bg-blue-600',
-    },
-    BPI: {
-      primaryColor: ' bg-tertiary',
-      secondaryColor: ' bg-red-400',
-    },
-    LANDBANK: {
-      primaryColor: ' bg-green-600',
-      secondaryColor: ' bg-green-400',
-    },
-    null: {
-      primaryColor: ' bg-white',
-      secondaryColor: ' bg-white',
-    },
-  };
+export default function BankMenu({}) {
+  const [accounts, setAccounts] = useState<AccountModel[]>([]);
+  const [selectedAccount, setSelectedAccount] =
+    useState<AccountModel>(nullAccount);
+  const [bankSelected, setBankSelected] = useState<BankModel>(nullBank);
+  const [authState, setAuthState] = useState(false);
 
   async function fetchBank() {
     const bankSelected: BankModel = await getBank();
@@ -34,8 +40,19 @@ export default function BankMenu({}) {
     setBankSelected(bankSelected);
   }
 
+  async function fetchAccounts() {
+    const foundAccounts: AccountModel[] | null = await getAccounts(
+      'j@fake.com'
+    );
+
+    if (!foundAccounts) return;
+
+    setAccounts(foundAccounts);
+  }
+
   useEffect(() => {
     fetchBank();
+    fetchAccounts();
   }, []);
 
   return (
@@ -60,6 +77,7 @@ export default function BankMenu({}) {
               .primaryColor
           }
         >
+          {/* <DropDownMenu bankName={bankSelected.bankName} accounts={} /> */}
           {/* <DropDownMenu
             setAccountForBankPage={setAccountForBank}
             isAccountAndPassMatched={passwordsAreMatched}
@@ -135,6 +153,66 @@ export default function BankMenu({}) {
           </div>
         </>
       )} */}
+    </div>
+  );
+}
+
+function DropDownMenu({
+  bankName,
+  accounts,
+  setSelectedAccount,
+  setAuthState,
+}: {
+  bankName: string;
+  accounts: AccountModel[];
+  setSelectedAccount: React.Dispatch<React.SetStateAction<AccountModel>>;
+  setAuthState: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const [dropDownClick, setDropDownState] = useState(false);
+
+  function configureBankMenu(account: AccountModel) {
+    setSelectedAccount(account);
+    setAuthState(false);
+    setDropDownState(false);
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <button onClick={() => setDropDownState(!dropDownClick)}>
+        <span className="phone:hidden laptop:flex">Change Account</span>
+
+        <Image
+          src="/images/caret-down.png"
+          alt="caret down"
+          width={50}
+          height={50}
+          className="phone:flex laptop:hidden"
+        />
+      </button>
+
+      {dropDownClick && (
+        <div
+          className={
+            'phone:p-1 laptop:p-2 rounded absolute phone:w-11 laptop:w-[130px] mt-7' +
+            colorScheme[bankName as keyof typeof colorScheme].secondaryColor
+          }
+          id="hover-element"
+        >
+          {accounts.map((account) => (
+            <div
+              key={account.accountNumber}
+              className="flex flex-col hover:bg-white hover:text-black"
+              onClick={() => configureBankMenu(account)}
+            >
+              {account.bank == bankName && (
+                <button className="phone:text-xs laptop:text-lg border-b-2 border-black mt-2">
+                  {account.accountNumber}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
