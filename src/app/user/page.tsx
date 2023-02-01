@@ -1,14 +1,7 @@
-import { backendUrl } from '@/util/globalVars';
 import { BankModel } from '@/util/types';
 import Image from 'next/image';
-
-export async function getBanks(): Promise<BankModel[] | null> {
-  const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
-
-  if (!res.ok) return null;
-
-  return res.json();
-}
+import BankCard from './BankCard';
+import { getBanks } from './layout';
 
 export default async function UserPage({}) {
   const banks: BankModel[] | null = await getBanks();
@@ -30,10 +23,11 @@ export default async function UserPage({}) {
               Banks Linked
             </span>
           </div>
+
           <div className="grid laptop:grid-flow-col overflow-x-scroll phone:h-[400px] phone:w-[3000px] tablet:h-[300px] tablet:w-[650px] phone:grid-flow-row phone:justify-center laptop:justify-start scrollbar-thin">
-            {/* {System?.banks.map((bank) => (
+            {banks!.map((bank) => (
               <BankCard bank={bank} key={bank.bankName} />
-            ))} */}
+            ))}
           </div>
         </div>
       </div>

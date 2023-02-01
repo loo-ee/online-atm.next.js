@@ -1,5 +1,5 @@
+import { getBanks } from '@/adapters/systemAdapter';
 import { BankModel } from '@/util/types';
-import { getBanks } from '../page';
 
 export const dynamicParams = false;
 
