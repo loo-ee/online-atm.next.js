@@ -26,16 +26,6 @@ export default function BankCard({ bank }: { bank: BankModel }) {
           height={100}
           className="mb-4 ml-3"
         />
-        {/* <img
-          src={
-            new URL(
-              `../../assets/${bank.thumbnail.slice(1, bank.thumbnail.length)}`,
-              import.meta.url
-            ).href
-          }
-          className="w-24 h-24 rounded mb-4 ml-3"
-          alt=""
-        /> */}
       </div>
 
       <div className="flex flex-row justify-between items-center">
