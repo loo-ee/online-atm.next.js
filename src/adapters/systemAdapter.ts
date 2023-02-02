@@ -1,5 +1,4 @@
 import { backendUrl } from '@/util/globalVars';
-import { BankModel } from '@/util/types';
 
 export async function getBanks() {
   const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
@@ -10,14 +9,11 @@ export async function getBanks() {
 }
 
 export async function getBank(bankName: string) {
-  const bank: BankModel = {
-    id: 1,
-    bankName: 'BDO',
-    description: 'We find ways.',
-    thumbnail: '/images/bdo.png',
-  };
+  const res = await fetch(`${backendUrl}/bank/?bank=${bankName}`);
 
-  return bank;
+  if (!res.ok) return null;
+
+  return res.json();
 }
 
 export async function getAccounts(email: string) {

@@ -1,11 +1,13 @@
 import { getBank, getBanks } from '@/adapters/systemAdapter';
+import { nullBank } from '@/util/globalVars';
 import { BankModel } from '@/util/types';
 import BankMenu from './BankMenu';
 
 export const dynamicParams = false;
 
 export default async function Bank({ params }: { params: { bank: string } }) {
-  const bank: BankModel | null = await getBank(params.bank);
+  let bank: BankModel | null = await getBank(params.bank);
+  if (!bank) bank = nullBank;
 
   return <BankMenu bank={bank} />;
 }

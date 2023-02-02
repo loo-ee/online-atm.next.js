@@ -1,11 +1,10 @@
 'use client';
 
-import { getAccounts, getBank } from '@/adapters/systemAdapter';
-import { SystemContext } from '@/contexts/SystemContext';
-import { nullAccount, nullBank } from '@/util/globalVars';
+import { getAccounts } from '@/adapters/systemAdapter';
+import { nullAccount } from '@/util/globalVars';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const colorScheme = {
   BDO: {
