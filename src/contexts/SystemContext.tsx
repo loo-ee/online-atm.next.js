@@ -1,14 +1,10 @@
 'use client';
 
-import { nullBank } from '@/util/globalVars';
-import { BankModel } from '@/util/types';
 import React, { useState } from 'react';
 
 export interface SystemContextProp {
-  selectedBank: BankModel;
-  setSelectedBank: React.Dispatch<React.SetStateAction<BankModel>>;
-  banks: BankModel[];
-  setBanks: React.Dispatch<React.SetStateAction<BankModel[]>>;
+  transactionMode: string;
+  setTransactionMode: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const SystemContext = React.createContext<SystemContextProp | null>(
@@ -20,14 +16,11 @@ export default function SystemContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [banks, setBanks] = useState([nullBank, nullBank]);
-  const [selectedBank, setSelectedBank] = useState(nullBank);
+  const [transactionMode, setTransactionMode] = useState('deposit');
 
   const System: SystemContextProp = {
-    banks: banks,
-    setBanks: setBanks,
-    selectedBank: selectedBank,
-    setSelectedBank: setSelectedBank,
+    transactionMode: transactionMode,
+    setTransactionMode: setTransactionMode,
   };
 
   return (

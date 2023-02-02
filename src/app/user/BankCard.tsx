@@ -2,9 +2,14 @@
 
 import { BankModel } from '@/util/types';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function BankCard({ bank }: { bank: BankModel }) {
-  function onBankSelect() {}
+  const navigator = useRouter();
+
+  function onBankSelect() {
+    navigator.push(`/user/${bank.bankName}`);
+  }
 
   return (
     <div

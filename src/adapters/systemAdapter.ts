@@ -1,4 +1,5 @@
 import { backendUrl } from '@/util/globalVars';
+import { AccountModel } from '@/util/types';
 
 export async function getBanks() {
   const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
@@ -16,12 +17,18 @@ export async function getBank(bankName: string) {
   return res.json();
 }
 
-export async function getAccounts(email: string) {
-  const res = await fetch(`${backendUrl}/accounts?email=${email}`, {
-    next: { revalidate: 60 },
-  });
+export async function getAccounts(email: string, bankName: string) {
+  const res = await fetch(
+    `${backendUrl}/accounts?email=${email}&bankName=${bankName}`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
 
   if (!res.ok) return null;
 
-  return res.json();
+  const accounts: AccountModel[] = await res.json();
+  if (accounts.length == 0) return null;
+
+  return accounts;
 }

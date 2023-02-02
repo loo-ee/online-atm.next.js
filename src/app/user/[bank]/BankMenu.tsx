@@ -2,9 +2,12 @@
 
 import { getAccounts } from '@/adapters/systemAdapter';
 import { nullAccount } from '@/util/globalVars';
+import NumPad from '@/util/Numpad';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import ModeSelection from './ModeSelection';
+import Transactions from './Transactions';
 
 const colorScheme = {
   BDO: {
@@ -30,16 +33,33 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
   const [selectedAccount, setSelectedAccount] =
     useState<AccountModel>(nullAccount);
   const [authState, setAuthState] = useState(false);
+  const [headerText, setHeaderText] = useState('Enter pin');
 
   async function fetchAccounts() {
     const foundAccounts: AccountModel[] | null = await getAccounts(
-      'jl@fake.com'
+      'jl@fake.com',
+      bank.bankName
     );
 
-    if (!foundAccounts) return;
+    if (foundAccounts) {
+      setAccounts(foundAccounts);
+      setSelectedAccount(foundAccounts[0]);
+    }
+  }
 
-    setAccounts(foundAccounts);
-    setSelectedAccount(foundAccounts[0]);
+  function validateLogin(pin: number) {
+    const status = pin == selectedAccount.pin;
+
+    if (status) setAuthState(true);
+    else displayWarning();
+  }
+
+  function displayWarning() {
+    setHeaderText("Passwords don't match!");
+
+    setTimeout(() => {
+      setHeaderText('Please enter your pin');
+    }, 5000);
   }
 
   useEffect(() => {
@@ -120,11 +140,11 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
         </div>
       </div>
 
-      {/* {arePasswordsMatched ? (
+      {authState ? (
         <div className="flex flex-row justify-between phone:mt-4 laptop:mt-10">
           <ModeSelection />
-          <Transaction
-            account={accountForBank ? accountForBank : nullAccount}
+          <Transactions
+            account={selectedAccount ? selectedAccount : nullAccount}
           />
         </div>
       ) : (
@@ -135,11 +155,11 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
             </span>
 
             <div>
-              <NumPad mainOperation={validateLogin} />
+              <NumPad handleSubmit={validateLogin} />
             </div>
           </div>
         </>
-      )} */}
+      )}
     </div>
   );
 }

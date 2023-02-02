@@ -1,5 +1,28 @@
+'use client';
+
+import { SystemContext } from '@/contexts/SystemContext';
+import { useContext } from 'react';
+
 export default function ModeSelection({}) {
-  function changeInterface() {}
+  const System = useContext(SystemContext);
+
+  function changeInterface(mode: string) {
+    System?.setTransactionMode(mode);
+
+    const modeButtons = document.querySelectorAll('.modeButton');
+    modeButtons.forEach((button) => {
+      if (button.id == mode)
+        button.setAttribute(
+          'class',
+          'modeButton phone:text-md laptop:text-2xl text-u_orange'
+        );
+      else
+        button.setAttribute(
+          'class',
+          'modeButton phone:text-sm laptop:text-xl text-u_darkblue'
+        );
+    });
+  }
 
   return (
     <div className="flex flex-col phone:w-36 phone:h-40 laptop:w-56 laptop:h-64 phone:ml-0 laptop:ml-10 justify-evenly">
