@@ -1,7 +1,7 @@
+import { getBanks } from '@/adapters/systemAdapter';
 import { BankModel } from '@/util/types';
 import Image from 'next/image';
 import BankCard from './BankCard';
-import { getBanks } from './layout';
 
 export default async function UserPage({}) {
   const banks: BankModel[] | null = await getBanks();
