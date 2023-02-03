@@ -1,10 +1,11 @@
 'use client';
 
-import { getAccounts } from '@/adapters/systemAdapter';
+import { getAccounts } from '@/adapters/userAdapter';
 import { nullAccount } from '@/util/globalVars';
 import NumPad from '@/util/Numpad';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import ModeSelection from './ModeSelection';
 import Transactions from './Transactions';
@@ -34,6 +35,8 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
     useState<AccountModel>(nullAccount);
   const [authState, setAuthState] = useState(false);
   const [headerText, setHeaderText] = useState('Enter pin');
+
+  const navigator = useRouter();
 
   async function fetchAccounts() {
     const foundAccounts: AccountModel[] | null = await getAccounts(
@@ -100,8 +103,7 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
             colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
-          {/* <button onClick={() => console.log('Toggle account creation')}> */}
-          <button>
+          <button onClick={() => navigator.push('/user/account_creation')}>
             {/* <img src="" alt="" className="phone:flex laptop:hidden" /> */}
             <span className="phone:hidden laptop:flex">Add Account</span>
           </button>

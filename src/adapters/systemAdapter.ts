@@ -1,5 +1,6 @@
 import { backendUrl } from '@/util/globalVars';
-import { AccountModel } from '@/util/types';
+
+const defaultHeader = { 'Content-type': 'application/json' };
 
 export async function getBanks() {
   const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
@@ -15,20 +16,4 @@ export async function getBank(bankName: string) {
   if (!res.ok) return null;
 
   return res.json();
-}
-
-export async function getAccounts(email: string, bankName: string) {
-  const res = await fetch(
-    `${backendUrl}/accounts?email=${email}&bankName=${bankName}`,
-    {
-      next: { revalidate: 60 },
-    }
-  );
-
-  if (!res.ok) return null;
-
-  const accounts: AccountModel[] = await res.json();
-  if (accounts.length == 0) return null;
-
-  return accounts;
 }
