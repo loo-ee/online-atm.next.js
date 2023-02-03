@@ -57,7 +57,7 @@ export async function getAccounts(
   const res = await fetch(
     `${backendUrl}/accounts?email=${email}&bankName=${bankName}`,
     {
-      next: { revalidate: 60 },
+      next: { revalidate: 30 },
     }
   );
 
@@ -122,7 +122,7 @@ export async function createAccountCreationRequest(request: AccountRequest) {
   }
 }
 
-export async function creaetChangePinRequest(request: ChangePinRequest) {
+export async function createChangePinRequest(request: ChangePinRequest) {
   try {
     await fetch(`${backendUrl}/create-change-pin-req`, {
       method: 'POST',

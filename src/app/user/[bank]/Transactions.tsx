@@ -1,15 +1,21 @@
 'use client';
 
+import {
+  createMessage,
+  findAccount,
+  updateAccount,
+} from '@/adapters/userAdapter';
 import { SystemContext } from '@/contexts/SystemContext';
-import { nullAccount } from '@/util/globalVars';
 import Message from '@/util/Message';
 import NumPad from '@/util/Numpad';
 import { AccountModel, MessageModel } from '@/util/types';
+import { useRouter } from 'next/navigation';
 import { useContext, useState, useRef } from 'react';
 import PinChange from './PinChange';
 
 export default function Transactions({ account }: { account: AccountModel }) {
   const System = useContext(SystemContext);
+  const navigator = useRouter();
 
   const [withdrawHeaderText, setWithdrawHeaderText] = useState(
     'Input amount to withdraw'
@@ -25,7 +31,7 @@ export default function Transactions({ account }: { account: AccountModel }) {
 
   const deposit = async (moneyDeposit: number) => {
     account.balance += moneyDeposit;
-    // await updateAccount(account);
+    await updateAccount(account);
 
     const message: MessageModel = {
       sender: 'Admin',
@@ -34,7 +40,7 @@ export default function Transactions({ account }: { account: AccountModel }) {
       body: `You have successfully deposited ${moneyDeposit} to your account [${account.accountNumber}].`,
     };
 
-    // await createMessage(message);
+    await createMessage(message);
   };
 
   const withdraw = async (deduction: number) => {
@@ -49,7 +55,7 @@ export default function Transactions({ account }: { account: AccountModel }) {
     }
 
     account.balance -= deduction;
-    // await updateAccount(account);
+    await updateAccount(account);
 
     const message: MessageModel = {
       sender: 'Admin',
@@ -58,12 +64,11 @@ export default function Transactions({ account }: { account: AccountModel }) {
       body: `You have successfully withdrawn ${deduction} from your account [${account.accountNumber}].`,
     };
 
-    // await createMessage(message);
+    await createMessage(message);
   };
 
   const validateAccount = async (accountNumber: number) => {
-    // const foundAccount: AccountModel = await findAccount(accountNumber);
-    let foundAccount = nullAccount;
+    const foundAccount: AccountModel = await findAccount(accountNumber);
 
     if (!foundAccount) {
       console.log('Account to receive not found');
@@ -95,17 +100,18 @@ export default function Transactions({ account }: { account: AccountModel }) {
     const receiver = accountToReceive.accountNumber;
     const title = 'Received Credit';
 
-    // await updateAccount(accountToReceive);
-    // await withdraw(amountToTransfer);
-    // await createMessage({
-    //   sender: sender.toString(),
-    //   receiver: receiver.toString(),
-    //   title: title,
-    //   body: messageBody,
-    // });
+    await updateAccount(accountToReceive);
+    await withdraw(amountToTransfer);
+    await createMessage({
+      sender: sender.toString(),
+      receiver: receiver.toString(),
+      title: title,
+      body: messageBody,
+    });
 
     console.log('Transfer success');
     setIsReadyForTransfer(false);
+    navigator.refresh();
   };
 
   if (System?.transactionMode == 'deposit') {

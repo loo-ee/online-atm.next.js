@@ -1,12 +1,11 @@
 'use client';
 
-import { getAccounts } from '@/adapters/userAdapter';
 import { nullAccount } from '@/util/globalVars';
 import NumPad from '@/util/Numpad';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ModeSelection from './ModeSelection';
 import Transactions from './Transactions';
 
@@ -29,26 +28,20 @@ const colorScheme = {
   },
 };
 
-export default function BankMenu({ bank }: { bank: BankModel }) {
-  const [accounts, setAccounts] = useState<AccountModel[]>([]);
-  const [selectedAccount, setSelectedAccount] =
-    useState<AccountModel>(nullAccount);
+export default function BankMenu({
+  accounts,
+  bank,
+}: {
+  accounts: AccountModel[];
+  bank: BankModel;
+}) {
+  const [selectedAccount, setSelectedAccount] = useState<AccountModel>(
+    accounts[0]
+  );
   const [authState, setAuthState] = useState(false);
   const [headerText, setHeaderText] = useState('Enter pin');
 
   const navigator = useRouter();
-
-  async function fetchAccounts() {
-    const foundAccounts: AccountModel[] | null = await getAccounts(
-      'jl@fake.com',
-      bank.bankName
-    );
-
-    if (foundAccounts) {
-      setAccounts(foundAccounts);
-      setSelectedAccount(foundAccounts[0]);
-    }
-  }
 
   function validateLogin(pin: number) {
     const status = pin == selectedAccount.pin;
@@ -64,10 +57,6 @@ export default function BankMenu({ bank }: { bank: BankModel }) {
       setHeaderText('Please enter your pin');
     }, 5000);
   }
-
-  useEffect(() => {
-    fetchAccounts();
-  }, []);
 
   return (
     <div className="phone:p-2 laptop:p-4">

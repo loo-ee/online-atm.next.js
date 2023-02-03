@@ -1,3 +1,4 @@
+import { createChangePinRequest } from '@/adapters/userAdapter';
 import Message from '@/util/Message';
 import NumPad from '@/util/Numpad';
 import { AccountModel, ChangePinRequest } from '@/util/types';
@@ -36,7 +37,7 @@ export default function PinChange({ account }: { account: AccountModel }) {
       body: messageField.current.value,
     };
 
-    // await createChangePinRequest(request);
+    await createChangePinRequest(request);
     setIsReadyForSubmission(false);
     setHeaderText('Pin change request submitted to admin');
   };
