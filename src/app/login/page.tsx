@@ -1,24 +1,49 @@
 'use client';
 
+import { getUser, login } from '@/adapters/userAdapter';
+import { UserContext } from '@/contexts/UserContext';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 
 export default function Login({}) {
-  // const User = useContext(UserContext);
-
+  const User = useContext(UserContext);
   const navigator = useRouter();
 
   const emailField = useRef<HTMLInputElement>(null);
   const passwordField = useRef<HTMLInputElement>(null);
   const loginBtn = useRef<HTMLButtonElement>(null);
 
-  function login() {
-    // TODO: CREATE LOGIN API CALL
-  }
+  const [headerText, setHeaderText] = useState('Please Enter Details');
+
+  setTimeout(() => {
+    loginBtn.current?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = emailField.current?.value;
+      const password = passwordField.current?.value;
+
+      if (email == undefined || password == undefined) {
+        setHeaderText('Please fill all fields');
+        return;
+      }
+
+      const token = await login(email, password);
+      console.log(token);
+      const foundUser = await getUser(email, password);
+
+      if (foundUser) User?.setUser(foundUser);
+      localStorage.setItem('token', token.token);
+
+      setHeaderText('Login Sucess! Redirecting...');
+
+      setTimeout(() => {
+        navigator.push('/user/');
+      }, 3000);
+    });
+  });
 
   return (
     <div className="flex flex-col mt-36 self-center items-center border-2 rounded-lg w-[500px] p-4">
-      <div>Login</div>
+      <div>{headerText}</div>
 
       <div>
         <form action="" className="flex flex-col items-center">
@@ -40,7 +65,6 @@ export default function Login({}) {
 
           <button
             ref={loginBtn}
-            onClick={login}
             className="border-2 border-black rounded-lg p-2 w-32 mt-2"
           >
             Login

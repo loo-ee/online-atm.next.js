@@ -30,6 +30,20 @@ export async function validateSession(
   }
 }
 
+export async function login(email: string, password: string) {
+  try {
+    const res = await fetch(`${backendUrl}/login/`, {
+      method: 'POST',
+      headers: defaultHeader,
+      body: JSON.stringify({ username: email, password: password }),
+    });
+
+    return res.json();
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getUser(
   email: string,
   password: string
@@ -87,17 +101,6 @@ export async function getAccounts(
 
   return accounts;
 }
-
-// TODO: IMPLEMENT LOGIN WITH AUTH0
-// export async function login(username: string, password: string) {
-//   try {
-//     const res = await fetch(`${backendUrl}/login/`)
-//   } catch (error) {
-
-//   }
-// }
-
-// TODO: IMPLEMENT VALIDATESESSION() WITH AUTH0
 
 export async function updateAccount(account: AccountModel) {
   try {
