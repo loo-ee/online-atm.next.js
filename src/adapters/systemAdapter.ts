@@ -1,7 +1,5 @@
 import { backendUrl } from '@/util/globalVars';
 
-const defaultHeader = { 'Content-type': 'application/json' };
-
 export async function getBanks() {
   const res = await fetch(`${backendUrl}/banks/`, { cache: 'no-store' });
 

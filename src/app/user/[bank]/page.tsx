@@ -34,7 +34,7 @@ export default async function Bank({ params }: { params: { bank: string } }) {
 export async function generateStaticParams() {
   const banks: BankModel[] | null = await getBanks();
 
-  if (!banks) return;
+  if (!banks) return [{ bank: 'null' }];
 
   return banks.map((bank) => ({
     bank: bank.bankName,

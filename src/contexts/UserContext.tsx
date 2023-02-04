@@ -22,7 +22,6 @@ export default function UserContextProvider({
     avatar: null,
     lastLogin: null,
     isAdmin: false,
-    accounts: [],
   };
 
   const [userAccount, setUserAccount] = useState<UserModel>(userAcc);

@@ -22,7 +22,6 @@ export default function Transactions({ account }: { account: AccountModel }) {
   );
   const [isAccountFound, setIsAccountFound] = useState(false);
   const [amountToTransfer, setAmountToTransfer] = useState(0);
-  const [willSendMoney, setWillSendMoney] = useState(false);
   const [accountToReceive, setAccountToReceive] = useState<AccountModel | null>(
     null
   );
@@ -141,20 +140,6 @@ export default function Transactions({ account }: { account: AccountModel }) {
       </div>
     );
   } else if (System?.transactionMode == 'transfer') {
-    if (willSendMoney) {
-      return (
-        <div>
-          <BankPageHeader headerText="Sending money..." />
-
-          <div className="h-32 flex flex-col justify-evenly items-center">
-            <span>Amount: ${amountToTransfer}</span>
-            <span>Sender: {account.accountNumber}</span>
-            <span>Reciever: {accountToReceive?.accountNumber}</span>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="flex flex-col items-center">
         {isAccountFound ? (
