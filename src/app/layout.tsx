@@ -4,6 +4,7 @@ import Header from './Header';
 
 import { Rubik } from '@next/font/google';
 import SystemContextProvider from '@/contexts/SystemContext';
+import RouteGuard from './RouteGuard';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -22,7 +23,7 @@ export default function RootLayout({
           <UserContextProvider>
             <Header />
 
-            {children}
+            <RouteGuard>{children}</RouteGuard>
           </UserContextProvider>
         </SystemContextProvider>
       </body>

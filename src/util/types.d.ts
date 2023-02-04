@@ -8,7 +8,6 @@ export type BankModel = {
 export type UserModel = {
   email: string;
   password: string;
-  accounts: AccountModel[];
   avatar: string | null;
   lastLogin: string | null;
   username: string;

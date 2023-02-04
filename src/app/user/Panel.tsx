@@ -11,21 +11,19 @@ export default function Panel({}) {
   const LBAccountsCount = useRef(0);
 
   function getAccountsCount(): void {
-    User?.user.accounts.map((account) => {
-      switch (account.bank) {
-        case 'BDO':
-          BDOAccountsCount.current++;
-          break;
-
-        case 'BPI':
-          BPIAccountsCount.current++;
-          break;
-
-        case 'LANDBANK':
-          LBAccountsCount.current++;
-          break;
-      }
-    });
+    // User?.user.accounts.map((account) => {
+    //   switch (account.bank) {
+    //     case 'BDO':
+    //       BDOAccountsCount.current++;
+    //       break;
+    //     case 'BPI':
+    //       BPIAccountsCount.current++;
+    //       break;
+    //     case 'LANDBANK':
+    //       LBAccountsCount.current++;
+    //       break;
+    //   }
+    // });
   }
 
   useEffect(() => {
@@ -33,7 +31,7 @@ export default function Panel({}) {
   });
 
   return (
-    <div className="laptop:p-3 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
+    <div className="laptop:p-5 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
       <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded">
         <div className="flex flex-col">
           <span className="text-3xl text-white">{User?.user.username}</span>

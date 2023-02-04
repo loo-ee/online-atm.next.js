@@ -11,6 +11,25 @@ export const test = 1;
 
 const defaultHeader = { 'Content-type': 'application/json' };
 
+export async function validateSession(
+  token: string
+): Promise<UserModel | null> {
+  try {
+    if (token) {
+      const res = await fetch(`${backendUrl}/validate/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+
+      return res.json();
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getUser(
   email: string,
   password: string
