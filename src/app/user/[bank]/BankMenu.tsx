@@ -5,7 +5,7 @@ import NumPad from '@/util/Numpad';
 import { AccountModel, BankModel } from '@/util/types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModeSelection from './ModeSelection';
 import Transactions from './Transactions';
 
@@ -57,6 +57,11 @@ export default function BankMenu({
       setHeaderText('Please enter your pin');
     }, 5000);
   }
+
+  useEffect(() => {
+    if (accounts[0].accountNumber == nullAccount.accountNumber)
+      navigator.replace('/user/account_creation/');
+  }, []);
 
   return (
     <div className="phone:p-2 laptop:p-4">
