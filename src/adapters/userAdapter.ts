@@ -102,6 +102,23 @@ export async function getAccounts(
   return accounts;
 }
 
+export async function getAllAccounts(
+  email: string
+): Promise<AccountModel[] | null> {
+  try {
+    const res = await fetch(`${backendUrl}/all-accounts/?email=${email}`);
+
+    if (!res.ok) return null;
+
+    const accounts: AccountModel[] | null = await res.json();
+    if (accounts?.length == 0) return null;
+
+    return accounts;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function updateAccount(account: AccountModel) {
   try {
     const res = await fetch(
