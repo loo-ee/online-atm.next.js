@@ -1,9 +1,10 @@
 'use client';
 
-import { getUser, login } from '@/adapters/userAdapter';
+import { getUser, login, validateSession } from '@/adapters/userAdapter';
 import { UserContext } from '@/contexts/UserContext';
+import { UserModel } from '@/util/types';
 import { useRouter } from 'next/navigation';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 export default function Login({}) {
   const User = useContext(UserContext);
@@ -40,6 +41,29 @@ export default function Login({}) {
       }, 3000);
     });
   });
+
+  useEffect(() => {
+    const fetchAuthenticatedUser = async (token: string) => {
+      if (token == '') return;
+
+      const user: UserModel | null = await validateSession(token);
+      console.log(user);
+
+      if (user) {
+        User!.setUser(user);
+        navigator.push('/user/');
+      }
+    };
+
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    if (!token) navigator.push('/login/');
+    else {
+      // setToken(token);
+      fetchAuthenticatedUser(token);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col mt-36 self-center items-center border-2 rounded-lg w-[500px] p-4">
