@@ -1,8 +1,8 @@
 import { AccountModel, BankModel } from './types';
 
-// export const backendUrl = 'https://goldfish-app-3tklk.ondigitalocean.app';
+export const backendUrl = 'https://goldfish-app-3tklk.ondigitalocean.app';
 
-export const backendUrl = 'http://127.0.0.1:8000';
+// export const backendUrl = 'http://127.0.0.1:8000';
 
 export const nullBank: BankModel = {
   id: -1,

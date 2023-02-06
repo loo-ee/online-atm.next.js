@@ -19,7 +19,6 @@ export default function RouteGuard({
 
       try {
         const user = await validateSession(token);
-        console.log(user.detail);
 
         if (user.detail != 'Invalid token.') {
           User!.setUser(user);
@@ -30,7 +29,6 @@ export default function RouteGuard({
     };
 
     const token = localStorage.getItem('token');
-    console.log(token);
 
     if (!token) navigator.push('/login/');
     else {

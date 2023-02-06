@@ -27,7 +27,6 @@ export default function Login({}) {
       }
 
       const token = await login(email, password);
-      console.log(token);
       const foundUser = await getUser(email, password);
 
       if (foundUser) User?.setUser(foundUser);
