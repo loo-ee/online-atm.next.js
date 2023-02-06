@@ -99,6 +99,13 @@ export default function BankMenu({
         >
           <button onClick={() => navigator.push('/user/account_creation')}>
             {/* <img src="" alt="" className="phone:flex laptop:hidden" /> */}
+            <Image
+              src="/images/add.png"
+              alt="add btn"
+              width={50}
+              height={50}
+              className="phone:flex laptop:hidden"
+            />
             <span className="phone:hidden laptop:flex">Add Account</span>
           </button>
         </div>

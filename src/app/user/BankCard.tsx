@@ -14,7 +14,7 @@ export default function BankCard({ bank }: { bank: BankModel }) {
   return (
     <div
       id={bank.bankName}
-      className="bg-u_gray m-5 phone:w-64 tablet:w-80 p-3 rounded-lg"
+      className="bg-u_gray m-5 phone:w-64 tablet:w-80 p-3 rounded-lg border-2 border-black"
     >
       <div className="flex flex-row justify-between">
         <div className="flex flex-col phone:w-60">

@@ -42,7 +42,7 @@ export default function AccountCreationPage({}) {
   }, []);
 
   return (
-    <div className="phone:p-2 laptop:p-4 flex flex-col justify-center laptop:h-[550px]">
+    <div className="phone:p-2 laptop:p-4 flex flex-col items-center justify-center laptop:h-[550px]">
       <div className="dropdown mb-10 self-center relative inline-block">
         <button className="dropbtn w-[200px] bg-primary p-3 rounded hover:rounded-b-none text-white">
           Select Bank
@@ -60,14 +60,22 @@ export default function AccountCreationPage({}) {
         </div>
       </div>
 
-      <div className="text-center flex flex-row items-center justify-end">
-        <span className="phone:text-2xl">Account Creation</span>
+      <div className="text-center flex flex-row items-center justify-center phone:w-[150px] laptop:w-[400px]">
+        <span className="phone:text-xl laptop:text-3xl">Account Creation</span>
         <Image
           src={bankSelected.thumbnail}
           alt="bank thumb"
           width={80}
+          height={80}
+          className="rounded ml-5 phone:hidden laptop:flex"
+        />
+
+        <Image
+          src={bankSelected.thumbnail}
+          alt="bank thumb"
+          width={50}
           height={50}
-          className="rounded ml-5"
+          className="rounded ml-5 phone:flex laptop:hidden"
         />
       </div>
 
@@ -83,7 +91,7 @@ export default function AccountCreationPage({}) {
           />
         </div>
 
-        <div className="flex flex-row items-center phone:my-1 laptop:my-3 justify-between">
+        <div className="flex flex-row items-center phone:my-2 laptop:my-3 justify-between">
           <label htmlFor="email">Email: </label>
           <input
             ref={emailInput}
@@ -95,17 +103,17 @@ export default function AccountCreationPage({}) {
         </div>
       </div>
 
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mt-3">
         <button
           onClick={makeAccountCreationRequest}
-          className="bg-green-500 border-2 border-black laptop:w-[140px] rounded-lg laptop:p-4 laptop:mt-5 self-center"
+          className="bg-green-500 border-2 mx-5 border-black laptop:w-[140px] rounded-lg phone:p-2 laptop:p-4 laptop:mt-5 self-center"
         >
           <span className="laptop:text-xl text-white">Submit</span>
         </button>
 
         <button
           onClick={cancelAccountCreation}
-          className="bg-red-500 border-2 border-black laptop:w-[140px] rounded-lg laptop:p-4 laptop:mt-5 self-center"
+          className="bg-red-500 border-2 mx-5 border-black laptop:w-[140px] rounded-lg phone:p-2 laptop:p-4 laptop:mt-5 self-center"
         >
           <span className="laptop:text-xl text-white">Cancel</span>
         </button>

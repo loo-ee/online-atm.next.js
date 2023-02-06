@@ -35,7 +35,7 @@ export default function Header({}) {
           alt="money protection"
           width={60}
           height={60}
-          className="rounded-full ml-2 mt-3 phone:mx-12"
+          className="rounded-full mt-3 phone:mr-12"
         />
       </div>
     </div>
