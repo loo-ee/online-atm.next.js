@@ -1,9 +1,9 @@
 'use client';
 
-import { getUser, login, validateSession } from '@/adapters/userAdapter';
+import { getUser, login } from '@/adapters/userAdapter';
 import { UserContext } from '@/contexts/UserContext';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 
 export default function Login({}) {
   const User = useContext(UserContext);
@@ -41,37 +41,6 @@ export default function Login({}) {
       }, 3000);
     });
   });
-
-  useEffect(() => {
-    const fetchAuthenticatedUser = async (token: string) => {
-      if (token == '') return;
-
-      try {
-        const user = await validateSession(token);
-        console.log(user.detail);
-
-        if (user.detail != 'Invalid token.') {
-          User!.setUser(user);
-
-          if (user.isAdmin) navigator.push('/admin/');
-          else navigator.push('/user/');
-        } else {
-          setHeaderText('Session Expired.');
-        }
-      } catch (error) {
-        setHeaderText('Session Expired');
-      }
-    };
-
-    const token = localStorage.getItem('token');
-    console.log(token);
-
-    if (!token) navigator.push('/login/');
-    else {
-      // setToken(token);
-      fetchAuthenticatedUser(token);
-    }
-  }, []);
 
   return (
     <div className="flex flex-col mt-36 self-center items-center border-2 rounded-lg w-[500px] p-4">

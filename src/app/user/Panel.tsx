@@ -47,7 +47,7 @@ export default function Panel({}) {
 
   useEffect(() => {
     fetchAllAcounts();
-  }, []);
+  }, [User?.user]);
 
   return (
     <div className="laptop:p-5 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
