@@ -11,9 +11,7 @@ export const test = 1;
 
 const defaultHeader = { 'Content-type': 'application/json' };
 
-export async function validateSession(
-  token: string
-): Promise<UserModel | null> {
+export async function validateSession(token: string) {
   try {
     if (token) {
       const res = await fetch(`${backendUrl}/validate/`, {

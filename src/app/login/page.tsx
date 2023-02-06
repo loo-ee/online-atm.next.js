@@ -46,12 +46,18 @@ export default function Login({}) {
     const fetchAuthenticatedUser = async (token: string) => {
       if (token == '') return;
 
-      const user: UserModel | null = await validateSession(token);
-      console.log(user);
+      try {
+        const user = await validateSession(token);
+        console.log(user.detail);
 
-      if (user) {
-        User!.setUser(user);
-        navigator.push('/user/');
+        if (user.detail != 'Invalid token.') {
+          User!.setUser(user);
+          navigator.push('/user/');
+        } else {
+          setHeaderText('Session Expired.');
+        }
+      } catch (error) {
+        setHeaderText('Session Expired');
       }
     };
 
