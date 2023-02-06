@@ -2,7 +2,6 @@
 
 import { getUser, login, validateSession } from '@/adapters/userAdapter';
 import { UserContext } from '@/contexts/UserContext';
-import { UserModel } from '@/util/types';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 
@@ -37,7 +36,8 @@ export default function Login({}) {
       setHeaderText('Login Sucess! Redirecting...');
 
       setTimeout(() => {
-        navigator.push('/user/');
+        if (foundUser?.isAdmin) navigator.push('/admin/');
+        else navigator.push('/user/');
       }, 3000);
     });
   });
@@ -52,7 +52,9 @@ export default function Login({}) {
 
         if (user.detail != 'Invalid token.') {
           User!.setUser(user);
-          navigator.push('/user/');
+
+          if (user.isAdmin) navigator.push('/admin/');
+          else navigator.push('/user/');
         } else {
           setHeaderText('Session Expired.');
         }

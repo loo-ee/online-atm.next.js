@@ -1,6 +1,6 @@
 import HomeLayout from '../homeLayout';
 
-export default function UserLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;

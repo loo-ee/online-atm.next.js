@@ -161,7 +161,7 @@ export async function createAccountCreationRequest(request: AccountRequest) {
 
 export async function createChangePinRequest(request: ChangePinRequest) {
   try {
-    await fetch(`${backendUrl}/create-change-pin-req`, {
+    await fetch(`${backendUrl}/create-change-pin-req/`, {
       method: 'POST',
       headers: defaultHeader,
       body: JSON.stringify(request),
