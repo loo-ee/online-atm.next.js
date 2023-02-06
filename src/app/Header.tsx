@@ -8,7 +8,7 @@ export default function Header({}) {
       className="flex flex-row justify-between border-b-4 border-black items-center pb-3 w-full fixed bg-secondary z-50"
     >
       <div className="flex flex-row w-full items-center">
-        <Link href="/" className="flex flex-row ml-3 mt-3">
+        <Link href="/user/" className="flex flex-row ml-3 mt-3">
           <Image
             src="/images/money-transfer.png"
             alt="money transfer image"

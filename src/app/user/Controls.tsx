@@ -13,7 +13,7 @@ export default function Controls({}) {
   const [adminMode, setAdminMode] = useState('Acc Creation');
 
   function goToMessages() {
-    // TODO: CREATE ROUTE FOR MESSAGES
+    navigator.push('/user/messages/');
   }
 
   function logout() {
@@ -25,7 +25,7 @@ export default function Controls({}) {
   }
 
   function returnHome() {
-    navigator.push('/');
+    navigator.push('/user/');
   }
 
   function switchAdminModes() {

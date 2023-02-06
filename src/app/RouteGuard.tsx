@@ -23,9 +23,6 @@ export default function RouteGuard({
 
         if (user.detail != 'Invalid token.') {
           User!.setUser(user);
-
-          if (user.isAdmin) navigator.push('/admin/');
-          else navigator.push('/user/');
         } else {
           navigator.push('/login/');
         }
