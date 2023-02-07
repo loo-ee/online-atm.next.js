@@ -44,6 +44,22 @@ export async function login(email: string, password: string) {
   }
 }
 
+export async function logout(token: string) {
+  try {
+    const res = await fetch(`${backendUrl}/logout/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify(''),
+    });
+
+    return res.status;
+  } catch (error) {
+    return 500;
+  }
+}
+
 export async function getUser(
   email: string,
   password: string

@@ -4,6 +4,7 @@ import { UserContext } from '@/contexts/UserContext';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
+import { logout } from '@/adapters/userAdapter';
 
 export default function Controls({}) {
   const User = useContext(UserContext);
@@ -16,8 +17,15 @@ export default function Controls({}) {
     navigator.push('/user/messages/');
   }
 
-  function logout() {
-    // TODO: CREATE LOGOUT ROUTE
+  async function logoutUser() {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    const status = await logout(token);
+
+    if (status == 204) console.log('User was logged out');
+    else if (status == 500) console.log('Backend error');
   }
 
   function goBack() {
@@ -67,7 +75,7 @@ export default function Controls({}) {
       <SettingsButton
         text="Logout"
         imageSrc="/images/settings.png"
-        operation={logout}
+        operation={logoutUser}
       />
 
       <SettingsButton
