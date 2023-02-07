@@ -46,7 +46,7 @@ export async function login(email: string, password: string) {
 
 export async function logout(token: string) {
   try {
-    const res = await fetch(`${backendUrl}/logout/`, {
+    const res = await fetch(`${backendUrl}/logoutall/`, {
       method: 'POST',
       headers: {
         Authorization: `Token ${token}`,
