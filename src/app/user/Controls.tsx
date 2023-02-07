@@ -26,6 +26,8 @@ export default function Controls({}) {
 
     if (status == 204) console.log('User was logged out');
     else if (status == 500) console.log('Backend error');
+
+    location.reload();
   }
 
   function goBack() {
