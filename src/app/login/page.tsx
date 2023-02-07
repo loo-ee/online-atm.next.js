@@ -15,30 +15,29 @@ export default function Login({}) {
 
   const [headerText, setHeaderText] = useState('Please Enter Details');
 
-  setTimeout(() => {
-    loginBtn.current?.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const email = emailField.current?.value;
-      const password = passwordField.current?.value;
+  loginBtn.current?.addEventListener('click', async (e) => {
+    e.preventDefault();
 
-      if (email == undefined || password == undefined) {
-        setHeaderText('Please fill all fields');
-        return;
-      }
+    const email = emailField.current?.value;
+    const password = passwordField.current?.value;
 
-      const token = await login(email, password);
-      const foundUser = await getUser(email, password);
+    if (email == undefined || password == undefined) {
+      setHeaderText('Please fill all fields');
+      return;
+    }
 
-      if (foundUser) User?.setUser(foundUser);
-      localStorage.setItem('token', token.token);
+    const token = await login(email, password);
+    const foundUser = await getUser(email, password);
 
-      setHeaderText('Login Sucess! Redirecting...');
+    if (foundUser) User?.setUser(foundUser);
+    localStorage.setItem('token', token.token);
 
-      setTimeout(() => {
-        if (foundUser?.isAdmin) navigator.push('/admin/');
-        else navigator.push('/user/');
-      }, 3000);
-    });
+    setHeaderText('Login Sucess! Redirecting...');
+
+    setTimeout(() => {
+      if (foundUser?.isAdmin) navigator.push('/admin/');
+      else navigator.push('/user/');
+    }, 3000);
   });
 
   return (

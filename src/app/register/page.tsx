@@ -1,7 +1,8 @@
 'use client';
 
+import { createUser, searchUserEmail } from '@/adapters/userAdapter';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Register({}) {
   const navigator = useRouter();
@@ -10,14 +11,67 @@ export default function Register({}) {
   const emailRegister = useRef<HTMLInputElement>(null);
   const pass1Register = useRef<HTMLInputElement>(null);
   const pass2Register = useRef<HTMLInputElement>(null);
+  const registerBtn = useRef<HTMLButtonElement>(null);
 
-  function register() {
-    // TODO: CREATE REGISTER API CALL
-  }
+  const [headerText, setHeaderText] = useState('Register a user');
+
+  setTimeout(() => {
+    registerBtn.current?.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      const username = usernameRegister.current?.value;
+      const email = emailRegister.current?.value;
+      const pass1 = pass1Register.current?.value;
+      const pass2 = pass2Register.current?.value;
+
+      if (
+        username == undefined ||
+        email == undefined ||
+        pass1 == undefined ||
+        pass2 == undefined
+      ) {
+        changeHeader('Please fill all fields');
+        return;
+      }
+
+      if ((await searchUserEmail(email)) != 404) {
+        changeHeader('This email is already used!');
+        emailRegister.current!.value = '';
+        return;
+      }
+
+      if (pass1 != pass2) {
+        changeHeader('Passwords do not match!');
+        return;
+      }
+
+      const status = await createUser({
+        username: username,
+        email: email,
+        password: pass1,
+      });
+
+      usernameRegister.current!.value = '';
+      emailRegister.current!.value = '';
+      pass1Register.current!.value = '';
+      pass2Register.current!.value = '';
+
+      if (status) changeHeader('Account Created Successfully');
+      else changeHeader('Something Went Wrong. Please Try Again');
+    });
+
+    function changeHeader(text: string) {
+      setHeaderText(text);
+
+      setTimeout(() => {
+        setHeaderText('Register a user');
+      }, 3000);
+    }
+  });
 
   return (
     <div className="flex flex-col mt-36 self-center items-center border-2 rounded-lg w-[500px] p-4">
-      <div>Register</div>
+      <div>{headerText}</div>
 
       <div>
         <form action="" className="flex flex-col items-center">
@@ -54,7 +108,7 @@ export default function Register({}) {
           />
 
           <button
-            onClick={register}
+            ref={registerBtn}
             className="border-2 border-black rounded-lg p-2 w-32 mt-4"
           >
             Register
