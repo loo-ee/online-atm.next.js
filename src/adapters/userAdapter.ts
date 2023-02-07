@@ -36,9 +36,11 @@ export async function login(email: string, password: string) {
       body: JSON.stringify({ username: email, password: password }),
     });
 
+    if (res.status == 400) return 400;
+
     return res.json();
   } catch (error) {
-    return null;
+    return 500;
   }
 }
 
@@ -57,18 +59,35 @@ export async function getUser(
   }
 }
 
-export async function searchUserEmail(email: string): Promise<boolean> {
+export async function searchUserEmail(email: string): Promise<number> {
   try {
-    await fetch(`${backendUrl}/search-user/?email=${email}`);
+    const res = await fetch(`${backendUrl}/search-user/?email=${email}`);
 
-    return true;
+    return res.status;
   } catch (error) {
-    return false;
+    return 500;
   }
 }
 
-export async function createUser(user: {}): Promise<boolean> {
+export async function createUser({
+  username,
+  email,
+  password,
+}: {
+  username: string;
+  email: string;
+  password: string;
+}): Promise<boolean> {
   try {
+    const user: UserModel = {
+      username: username,
+      email: email,
+      password: password,
+      avatar: null,
+      isAdmin: false,
+      lastLogin: null,
+    };
+
     await fetch(`${backendUrl}/register/`, {
       method: 'POST',
       headers: defaultHeader,
