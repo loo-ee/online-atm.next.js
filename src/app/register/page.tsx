@@ -34,7 +34,12 @@ export default function Register({}) {
         return;
       }
 
-      if ((await searchUserEmail(email)) != 404) {
+      const searchStatus = await searchUserEmail(email);
+
+      if (searchStatus == 500) {
+        changeHeader('Something went wrong. Please try again');
+        return;
+      } else if (searchStatus == 200) {
         changeHeader('This email is already used!');
         emailRegister.current!.value = '';
         return;

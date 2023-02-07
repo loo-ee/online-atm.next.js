@@ -63,7 +63,7 @@ export async function searchUserEmail(email: string): Promise<number> {
 
     return res.status;
   } catch (error) {
-    return 404;
+    return 500;
   }
 }
 
