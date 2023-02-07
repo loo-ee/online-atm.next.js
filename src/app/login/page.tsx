@@ -27,11 +27,19 @@ export default function Login({}) {
     }
 
     const token = await login(email, password);
+
+    if (token == 400) {
+      setHeaderText('Account not found!');
+      emailField.current!.value = '';
+      passwordField.current!.value = '';
+      return;
+    }
+
     const foundUser = await getUser(email, password);
+    if (!foundUser) return;
 
-    if (foundUser) User?.setUser(foundUser);
+    User?.setUser(foundUser);
     localStorage.setItem('token', token.token);
-
     setHeaderText('Login Sucess! Redirecting...');
 
     setTimeout(() => {

@@ -36,9 +36,11 @@ export async function login(email: string, password: string) {
       body: JSON.stringify({ username: email, password: password }),
     });
 
+    if (res.status == 400) return 400;
+
     return res.json();
   } catch (error) {
-    return null;
+    return 500;
   }
 }
 
