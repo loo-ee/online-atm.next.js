@@ -57,15 +57,13 @@ export async function getUser(
   }
 }
 
-export async function searchUserEmail(
-  email: string
-): Promise<number | boolean> {
+export async function searchUserEmail(email: string): Promise<number> {
   try {
-    const status = await fetch(`${backendUrl}/search-user/?email=${email}`);
+    const res = await fetch(`${backendUrl}/search-user/?email=${email}`);
 
-    return status.status;
+    return res.status;
   } catch (error) {
-    return false;
+    return 404;
   }
 }
 
