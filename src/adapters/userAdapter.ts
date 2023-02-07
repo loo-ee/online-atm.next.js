@@ -57,18 +57,37 @@ export async function getUser(
   }
 }
 
-export async function searchUserEmail(email: string): Promise<boolean> {
+export async function searchUserEmail(
+  email: string
+): Promise<number | boolean> {
   try {
-    await fetch(`${backendUrl}/search-user/?email=${email}`);
+    const status = await fetch(`${backendUrl}/search-user/?email=${email}`);
 
-    return true;
+    return status.status;
   } catch (error) {
     return false;
   }
 }
 
-export async function createUser(user: {}): Promise<boolean> {
+export async function createUser({
+  username,
+  email,
+  password,
+}: {
+  username: string;
+  email: string;
+  password: string;
+}): Promise<boolean> {
   try {
+    const user: UserModel = {
+      username: username,
+      email: email,
+      password: password,
+      avatar: null,
+      isAdmin: false,
+      lastLogin: null,
+    };
+
     await fetch(`${backendUrl}/register/`, {
       method: 'POST',
       headers: defaultHeader,
