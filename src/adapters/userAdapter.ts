@@ -1,15 +1,15 @@
-import { backendUrl } from '@/util/globalVars';
+import { backendUrl } from "@/util/globalVars";
 import {
   AccountModel,
   AccountRequest,
   ChangePinRequest,
   MessageModel,
   UserModel,
-} from '@/util/types';
+} from "@/util/types";
 
 export const test = 1;
 
-const defaultHeader = { 'Content-type': 'application/json' };
+const defaultHeader = { "Content-type": "application/json" };
 
 export async function validateSession(token: string) {
   try {
@@ -31,7 +31,7 @@ export async function validateSession(token: string) {
 export async function login(email: string, password: string) {
   try {
     const res = await fetch(`${backendUrl}/login/`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeader,
       body: JSON.stringify({ username: email, password: password }),
     });
@@ -47,11 +47,11 @@ export async function login(email: string, password: string) {
 export async function logout(token: string) {
   try {
     const res = await fetch(`${backendUrl}/logoutall/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Token ${token}`,
       },
-      body: JSON.stringify(''),
+      body: JSON.stringify(""),
     });
 
     return res.status;
@@ -99,13 +99,13 @@ export async function createUser({
       username: username,
       email: email,
       password: password,
-      avatar: null,
+      avatar: "/images/account.png",
       isAdmin: false,
-      lastLogin: null,
+      lastLogin: "",
     };
 
     await fetch(`${backendUrl}/register/`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeader,
       body: JSON.stringify(user),
     });
@@ -113,6 +113,20 @@ export async function createUser({
     return true;
   } catch (error) {
     return false;
+  }
+}
+
+export async function updateUser(user: UserModel) {
+  try {
+    const res = await fetch(`${backendUrl}/update-user/${user.email}/`, {
+      method: "PUT",
+      headers: defaultHeader,
+      body: JSON.stringify(user),
+    });
+
+    return res.status;
+  } catch (error) {
+    return 500;
   }
 }
 
@@ -157,7 +171,7 @@ export async function updateAccount(account: AccountModel) {
     const res = await fetch(
       `${backendUrl}/update-account/${account.accountNumber}/`,
       {
-        method: 'PUT',
+        method: "PUT",
         headers: defaultHeader,
         body: JSON.stringify(account),
       }
@@ -183,7 +197,7 @@ export async function findAccount(accountNumber: number) {
 export async function createAccountCreationRequest(request: AccountRequest) {
   try {
     await fetch(`${backendUrl}/create-acc-req/`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeader,
       body: JSON.stringify(request),
     });
@@ -197,7 +211,7 @@ export async function createAccountCreationRequest(request: AccountRequest) {
 export async function createChangePinRequest(request: ChangePinRequest) {
   try {
     await fetch(`${backendUrl}/create-change-pin-req/`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeader,
       body: JSON.stringify(request),
     });
@@ -211,7 +225,7 @@ export async function createChangePinRequest(request: ChangePinRequest) {
 export async function createMessage(message: MessageModel) {
   try {
     await fetch(`${backendUrl}/create-message/`, {
-      method: 'POST',
+      method: "POST",
       headers: defaultHeader,
       body: JSON.stringify(message),
     });
