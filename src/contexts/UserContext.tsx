@@ -11,7 +11,9 @@ export interface UserContextProp {
   lastLogin: string;
   isAdmin: boolean;
 
+  getUser: () => UserModel;
   setUser: (user: UserModel) => void;
+
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -36,6 +38,19 @@ export default function UserContextProvider({
     setAdminState(user.isAdmin);
   }
 
+  function getUser() {
+    const foundUser: UserModel = {
+      username: userName,
+      password: password,
+      email: email,
+      avatar: avatar,
+      isAdmin: isAdmin,
+      lastLogin: lastLogin,
+    };
+
+    return foundUser;
+  }
+
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -51,7 +66,9 @@ export default function UserContextProvider({
     isAdmin: isAdmin,
     lastLogin: lastLogin,
 
+    getUser: getUser,
     setUser: setUser,
+
     setUsername: setUsername,
     setPassword: setPassword,
     setEmail: setEmail,
