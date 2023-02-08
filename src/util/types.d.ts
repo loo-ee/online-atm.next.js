@@ -8,8 +8,8 @@ export type BankModel = {
 export type UserModel = {
   email: string;
   password: string;
-  avatar: string | null;
-  lastLogin: string | null;
+  avatar: string;
+  lastLogin: string;
   username: string;
   isAdmin: boolean;
 };
