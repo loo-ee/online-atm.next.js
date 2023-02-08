@@ -1,7 +1,19 @@
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+
+import { UserContext } from "@/contexts/UserContext";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 
 export default function Header({}) {
+  const User = useContext(UserContext);
+
+  const [profileImgSrc, setProfileImgSrc] = useState("/images/account.png");
+
+  useEffect(() => {
+    if (User?.avatar) setProfileImgSrc(User.avatar);
+  }, [User?.avatar]);
+
   return (
     <div
       id="header"
@@ -30,13 +42,15 @@ export default function Header({}) {
           className="laptop:flex phone:hidden"
         />
 
-        <Image
-          src="/images/account.png"
-          alt="money protection"
-          width={60}
-          height={60}
-          className="rounded-full mt-3 phone:mr-12"
-        />
+        <Link href="/user/profile/">
+          <Image
+            src={profileImgSrc}
+            alt="money protection"
+            width={60}
+            height={60}
+            className="rounded-full mt-3 phone:mr-12"
+          />
+        </Link>
       </div>
     </div>
   );

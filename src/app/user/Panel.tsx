@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import { getAllAccounts } from '@/adapters/userAdapter';
-import { UserContext } from '@/contexts/UserContext';
-import { AccountModel } from '@/util/types';
-import Image from 'next/image';
-import { useContext, useEffect, useState } from 'react';
+import { getAllAccounts } from "@/adapters/userAdapter";
+import { UserContext } from "@/contexts/UserContext";
+import { AccountModel } from "@/util/types";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 
 export default function Panel({}) {
   const User = useContext(UserContext);
 
+  const [imageSrc, setImageSrc] = useState("/images/account.png");
   const [BDO_count, set_BDO_count] = useState(0);
   const [BPI_count, set_BPI_count] = useState(0);
   const [LANDBANK_count, set_LANDBANK_count] = useState(0);
@@ -20,13 +22,13 @@ export default function Panel({}) {
 
     accounts.forEach((account) => {
       switch (account.bank) {
-        case 'BDO':
+        case "BDO":
           bdo++;
           break;
-        case 'BPI':
+        case "BPI":
           bpi++;
           break;
-        case 'LANDBANK':
+        case "LANDBANK":
           landbank++;
           break;
       }
@@ -38,7 +40,7 @@ export default function Panel({}) {
   }
 
   async function fetchAllAcounts() {
-    const foundAccounts = await getAllAccounts(User!.user.email);
+    const foundAccounts = await getAllAccounts(User!.email);
 
     if (foundAccounts) {
       getAccountsCount(foundAccounts);
@@ -47,22 +49,29 @@ export default function Panel({}) {
 
   useEffect(() => {
     fetchAllAcounts();
-  }, [User?.user]);
+  }, [User?.email]);
+
+  useEffect(() => {
+    if (User?.avatar) setImageSrc(User.avatar);
+  }, [User?.avatar]);
 
   return (
     <div className="laptop:p-5 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
       <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded">
         <div className="flex flex-col">
-          <span className="text-3xl text-white">{User?.user.username}</span>
-          <span className="text-md text-gray-200">{User?.user.email}</span>
+          <span className="text-3xl text-white">{User?.username}</span>
+          <span className="text-md text-gray-200">{User?.email}</span>
         </div>
 
-        <Image
-          src="/images/account.png"
-          alt="account pfp"
-          width={100}
-          height={100}
-        />
+        <Link href="/user/profile/">
+          <Image
+            src={imageSrc}
+            alt="account pfp"
+            width={100}
+            height={100}
+            className="rounded-full"
+          />
+        </Link>
       </div>
 
       <div className="text-xs flex flex-col text-start text-white laptop:mt-2">

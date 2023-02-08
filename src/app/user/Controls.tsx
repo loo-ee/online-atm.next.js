@@ -1,23 +1,33 @@
-'use client';
+"use client";
 
-import { UserContext } from '@/contexts/UserContext';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { UserContext } from "@/contexts/UserContext";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
+import { logout } from "@/adapters/userAdapter";
 
 export default function Controls({}) {
   const User = useContext(UserContext);
   const navigator = useRouter();
 
   const [isAccountCreationMode, setIsAccountCreationMode] = useState(false);
-  const [adminMode, setAdminMode] = useState('Acc Creation');
+  const [adminMode, setAdminMode] = useState("Acc Creation");
 
   function goToMessages() {
-    navigator.push('/user/messages/');
+    navigator.push("/user/messages/");
   }
 
-  function logout() {
-    // TODO: CREATE LOGOUT ROUTE
+  async function logoutUser() {
+    const token = localStorage.getItem("token");
+
+    if (!token) return;
+
+    const status = await logout(token);
+
+    if (status == 204) console.log("User was logged out");
+    else if (status == 500) console.log("Backend error");
+
+    location.reload();
   }
 
   function goBack() {
@@ -25,16 +35,16 @@ export default function Controls({}) {
   }
 
   function returnHome() {
-    navigator.push('/user/');
+    navigator.push("/user/");
   }
 
   function switchAdminModes() {
     if (isAccountCreationMode) {
       // TODO: CREATE ROUTE FOR ADMIN ACCOUNT CREATION
-      setAdminMode('Pin Change');
+      setAdminMode("Pin Change");
     } else {
       // TODO: CREATE ROUTE FOR ADMIN PIN CHANGE
-      setAdminMode('Acc Creation');
+      setAdminMode("Acc Creation");
     }
 
     setIsAccountCreationMode(!isAccountCreationMode);
@@ -42,7 +52,7 @@ export default function Controls({}) {
 
   return (
     <div className="flex phone:flex-row laptop:flex-col phone:w-96 laptop:w-32 rounded-lg phone:h-[150px] laptop:h-[600px] items-center justify-center p-3">
-      {User?.user.isAdmin ? (
+      {User?.isAdmin ? (
         <SettingsButton
           text={adminMode}
           imageSrc="/images/swap.png"
@@ -67,7 +77,7 @@ export default function Controls({}) {
       <SettingsButton
         text="Logout"
         imageSrc="/images/settings.png"
-        operation={logout}
+        operation={logoutUser}
       />
 
       <SettingsButton
