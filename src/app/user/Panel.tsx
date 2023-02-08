@@ -4,12 +4,13 @@ import { getAllAccounts } from "@/adapters/userAdapter";
 import { UserContext } from "@/contexts/UserContext";
 import { AccountModel } from "@/util/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
 export default function Panel({}) {
   const User = useContext(UserContext);
 
-  const [imageSrc, setImageSrc] = useState("/images/null.png");
+  const [imageSrc, setImageSrc] = useState("/images/account.png");
   const [BDO_count, set_BDO_count] = useState(0);
   const [BPI_count, set_BPI_count] = useState(0);
   const [LANDBANK_count, set_LANDBANK_count] = useState(0);
@@ -62,13 +63,15 @@ export default function Panel({}) {
           <span className="text-md text-gray-200">{User?.email}</span>
         </div>
 
-        <Image
-          src={imageSrc}
-          alt="account pfp"
-          width={100}
-          height={100}
-          className="rounded-full"
-        />
+        <Link href="/user/profile/">
+          <Image
+            src={imageSrc}
+            alt="account pfp"
+            width={100}
+            height={100}
+            className="rounded-full"
+          />
+        </Link>
       </div>
 
       <div className="text-xs flex flex-col text-start text-white laptop:mt-2">

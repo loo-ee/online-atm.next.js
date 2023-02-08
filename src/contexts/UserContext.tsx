@@ -39,7 +39,7 @@ export default function UserContextProvider({
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState<string>("/images/null.png");
+  const [avatar, setAvatar] = useState<string>("/images/account.png");
   const [lastLogin, setLastLogin] = useState<string>("");
   const [isAdmin, setAdminState] = useState(false);
 

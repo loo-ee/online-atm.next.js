@@ -9,21 +9,23 @@ export default function ProfilePage() {
 
   const imageInput = useRef<HTMLInputElement>(null);
 
-  const [profileSrc, setProfileSrc] = useState("/images/null.png");
+  const [profileSrc, setProfileSrc] = useState("/images/account.png");
 
-  imageInput.current?.addEventListener("change", function () {
-    const fileReader = new FileReader();
+  setTimeout(() => {
+    imageInput.current?.addEventListener("change", function () {
+      const fileReader = new FileReader();
 
-    fileReader.addEventListener("load", function () {
-      const result = fileReader.result;
-      if (typeof result == "string") {
-        setProfileSrc(result);
-        User?.setAvatar(result);
-      }
+      fileReader.addEventListener("load", function () {
+        const result = fileReader.result;
+        if (typeof result == "string") {
+          setProfileSrc(result);
+          User!.setAvatar(result);
+        }
+      });
+
+      if (this.files) fileReader.readAsDataURL(this.files[0]);
     });
-
-    if (this.files) fileReader.readAsDataURL(this.files[0]);
-  });
+  }, 1000);
 
   useEffect(() => {
     if (User?.avatar) setProfileSrc(User.avatar);

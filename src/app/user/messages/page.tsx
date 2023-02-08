@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { getBanks } from '@/adapters/systemAdapter';
-import { getAccounts } from '@/adapters/userAdapter';
-import { UserContext } from '@/contexts/UserContext';
-import { AccountModel, BankModel } from '@/util/types';
-import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { getBanks } from "@/adapters/systemAdapter";
+import { getAccounts } from "@/adapters/userAdapter";
+import { UserContext } from "@/contexts/UserContext";
+import { AccountModel, BankModel } from "@/util/types";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 
 export default function Messages() {
   const User = useContext(UserContext);
@@ -16,7 +16,7 @@ export default function Messages() {
     const foundBanks: BankModel[] = await getBanks();
 
     foundBanks.forEach(async (bank) => {
-      const receiver = await getAccounts(User!.user.email, bank.bankName);
+      const receiver = await getAccounts(User!.email, bank.bankName);
       console.log(receiver);
 
       if (receiver) setReceivers([...banks, receiver]);
@@ -25,7 +25,7 @@ export default function Messages() {
 
   useEffect(() => {
     fetchReceivers();
-  }, [User?.user.email]);
+  }, [User?.email]);
 
   return banks.map((bank, index) => (
     <div key={index}>
@@ -36,11 +36,11 @@ export default function Messages() {
         >
           <div
             className={
-              'my-6 phone:p-2 laptop:p-5 rounded-lg text-center bg-primary'
+              "my-6 phone:p-2 laptop:p-5 rounded-lg text-center bg-primary"
             }
           >
             <span className="ml-4 phone:text-md laptop:text-3xl text-white">
-              Messages for{' '}
+              Messages for{" "}
               <span className="text-secondary">{account.accountNumber}</span>
             </span>
           </div>
