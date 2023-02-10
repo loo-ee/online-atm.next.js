@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { nullAccount } from '@/util/globalVars';
-import NumPad from '@/util/Numpad';
-import { AccountModel, BankModel } from '@/util/types';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import ModeSelection from './ModeSelection';
-import Transactions from './Transactions';
+import { nullAccount } from "@/util/globalVars";
+import NumPad from "@/util/Numpad";
+import { AccountModel, BankModel } from "@/util/types";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import ModeSelection from "./ModeSelection";
+import Transactions from "./Transactions";
 
 const colorScheme = {
   BDO: {
-    primaryColor: ' bg-primary',
-    secondaryColor: ' bg-blue-600',
+    primaryColor: " bg-primary",
+    secondaryColor: " bg-blue-600",
   },
   BPI: {
-    primaryColor: ' bg-tertiary',
-    secondaryColor: ' bg-red-400',
+    primaryColor: " bg-tertiary",
+    secondaryColor: " bg-red-400",
   },
   LANDBANK: {
-    primaryColor: ' bg-green-600',
-    secondaryColor: ' bg-green-400',
+    primaryColor: " bg-green-600",
+    secondaryColor: " bg-green-400",
   },
   null: {
-    primaryColor: ' bg-white',
-    secondaryColor: ' bg-white',
+    primaryColor: " bg-white",
+    secondaryColor: " bg-white",
   },
 };
 
@@ -39,7 +39,7 @@ export default function BankMenu({
     accounts[0]
   );
   const [authState, setAuthState] = useState(false);
-  const [headerText, setHeaderText] = useState('Enter pin');
+  const [headerText, setHeaderText] = useState("Enter pin");
 
   const navigator = useRouter();
 
@@ -54,13 +54,13 @@ export default function BankMenu({
     setHeaderText("Passwords don't match!");
 
     setTimeout(() => {
-      setHeaderText('Please enter your pin');
+      setHeaderText("Please enter your pin");
     }, 5000);
   }
 
   useEffect(() => {
     if (accounts[0].accountNumber == nullAccount.accountNumber)
-      navigator.replace('/user/account_creation/');
+      navigator.replace("/user/account_creation/");
   }, []);
 
   return (
@@ -68,7 +68,7 @@ export default function BankMenu({
       <div className="flex flex-row justify-evenly items-start">
         <div
           className={
-            'phone:w-[150px] laptop:w-[300px] phone:mb-2 laptop:mb-6 p-3 rounded-lg' +
+            "phone:w-[150px] laptop:w-[300px] phone:mb-2 laptop:mb-6 p-3 rounded-lg" +
             colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
@@ -79,7 +79,7 @@ export default function BankMenu({
 
         <div
           className={
-            'text-white p-3 rounded-lg phone:w-[50px] laptop:w-[150px] h-12' +
+            "text-white p-3 rounded-lg phone:w-[50px] laptop:w-[150px] h-12" +
             colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
@@ -93,11 +93,11 @@ export default function BankMenu({
 
         <div
           className={
-            'text-white p-3 rounded-lg phone:w-[50px] text-center laptop:w-[130px] h-12' +
+            "text-white p-3 rounded-lg phone:w-[50px] text-center laptop:w-[130px] h-12" +
             colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
           }
         >
-          <button onClick={() => navigator.push('/user/account_creation')}>
+          <button onClick={() => navigator.push("/user/account_creation")}>
             <Image
               src="/images/add.png"
               alt="add btn"
@@ -112,7 +112,7 @@ export default function BankMenu({
 
       <div
         className={
-          'phone:w-[280px] laptop:w-[600px] mt-2 rounded-lg phone:p-2 laptop:p-6 flex flex-row items-center justify-between' +
+          "phone:w-[280px] laptop:w-[600px] mt-2 rounded-lg phone:p-2 laptop:p-6 flex flex-row items-center justify-between" +
           colorScheme[bank.bankName as keyof typeof colorScheme].primaryColor
         }
       >
@@ -132,13 +132,14 @@ export default function BankMenu({
             {bank.bankName}
           </span>
 
-          <Image
-            src={bank.thumbnail}
-            alt="System? selectedBank.bankName "
-            width={50}
-            height={40}
-            className="rounded ml-5"
-          />
+          <div className="laptop:w-[80px] laptop:h-[70px] relative ml-5">
+            <Image
+              src={bank.thumbnail}
+              alt="System? selectedBank.bankName "
+              fill
+              className="rounded"
+            />
+          </div>
         </div>
       </div>
 
@@ -202,7 +203,7 @@ function DropDownMenu({
       {dropDownClick && (
         <div
           className={
-            'phone:p-1 laptop:p-2 rounded absolute phone:w-11 laptop:w-[130px] mt-7' +
+            "phone:p-1 laptop:p-2 rounded absolute phone:w-11 laptop:w-[130px] mt-7" +
             colorScheme[bankName as keyof typeof colorScheme].secondaryColor
           }
           id="hover-element"

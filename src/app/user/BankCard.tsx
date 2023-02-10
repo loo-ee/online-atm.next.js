@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { BankModel } from '@/util/types';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { BankModel } from "@/util/types";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function BankCard({ bank }: { bank: BankModel }) {
   const navigator = useRouter();
@@ -24,13 +24,14 @@ export default function BankCard({ bank }: { bank: BankModel }) {
           <span className="mt-3">{bank.description}</span>
         </div>
 
-        <Image
-          src={bank.thumbnail}
-          alt={bank.bankName}
-          width={100}
-          height={100}
-          className="mb-4 ml-3"
-        />
+        <div className="mb-4 ml-3 w-[100px] h-[80px] relative">
+          <Image
+            src={bank.thumbnail}
+            alt={bank.bankName}
+            fill
+            className="rounded"
+          />
+        </div>
       </div>
 
       <div className="flex flex-row justify-between items-center">
