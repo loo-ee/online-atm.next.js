@@ -24,7 +24,7 @@ export default function BankCard({ bank }: { bank: BankModel }) {
           <span className="mt-3">{bank.description}</span>
         </div>
 
-        <div className="mb-4 ml-3 w-[100px] h-[80px] relative">
+        <div className="mb-4 ml-3 laptop:mr-0 phone:mr-2  laptop:w-[100px] laptop:h-[80px] phone:w-[75px] phone:h-[65px] relative">
           <Image
             src={bank.thumbnail}
             alt={bank.bankName}

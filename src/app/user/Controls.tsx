@@ -103,7 +103,7 @@ function SettingsButton({
       className="self-start text-center phone:w-20 phone:h-28 laptop:w-24 laptop:h-32 mx-1 my-1 border-4 border-black items-center bg-u_gray p-3 rounded-lg"
       onClick={operation}
     >
-      <div className="w-[68px] h-[68px] relative">
+      <div className="laptop:w-[68px] laptop:h-[68px] phone:w-[45px] phone:h-[45px] relative">
         <Image src={imageSrc} alt="settings" fill />
       </div>
 
