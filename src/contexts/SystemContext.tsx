@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export interface SystemContextProp {
   transactionMode: string;
@@ -16,7 +16,7 @@ export default function SystemContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [transactionMode, setTransactionMode] = useState('deposit');
+  const [transactionMode, setTransactionMode] = useState("deposit");
 
   const System: SystemContextProp = {
     transactionMode: transactionMode,

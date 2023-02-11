@@ -20,7 +20,7 @@ export default function Header({}) {
       className="flex flex-row justify-between border-b-4 border-black items-center pb-3 w-full fixed bg-secondary z-50"
     >
       <div className="flex flex-row w-full items-center">
-        <Link href="/user/" className="flex flex-row ml-3 mt-3">
+        <Link href="/user/" className="flex flex-row ml-3 mt-3 items-center">
           <Image
             src="/images/money-transfer.png"
             alt="money transfer image"
@@ -28,7 +28,7 @@ export default function Header({}) {
             height={60}
           />
 
-          <span className="text-u_darkblue ml-5 laptop:text-5xl tablet:text-2xl phone:text-md">
+          <span className="text-u_darkblue ml-5 laptop:text-5xl phone:text-2xl">
             ATM Service
           </span>
         </Link>

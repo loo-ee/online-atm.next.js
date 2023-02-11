@@ -56,21 +56,22 @@ export default function Panel({}) {
   }, [User?.avatar]);
 
   return (
-    <div className="laptop:p-5 bg-secondary border-4 border-black rounded-lg p-4 laptop:w-[300px] laptop:h-[300px] mt-8">
-      <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded">
+    <div className="laptop:p-5 bg-secondary border-4 border-black rounded-xl p-4 w-[300px] laptop:h-[300px] phone:h-[250px] mt-8">
+      <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded p-3">
         <div className="flex flex-col">
           <span className="text-3xl text-white">{User?.username}</span>
           <span className="text-md text-gray-200">{User?.email}</span>
         </div>
 
         <Link href="/user/profile/">
-          <Image
-            src={imageSrc}
-            alt="account pfp"
-            width={100}
-            height={100}
-            className="rounded-full"
-          />
+          <div className="laptop:w-[100px] laptop:h-[100px] phone:w-[60px] phone:h-[60px] relative">
+            <Image
+              src={imageSrc}
+              alt="account pfp"
+              fill
+              className="rounded-full"
+            />
+          </div>
         </Link>
       </div>
 

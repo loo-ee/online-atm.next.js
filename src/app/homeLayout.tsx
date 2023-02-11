@@ -1,5 +1,5 @@
-import Controls from './user/Controls';
-import Panel from './user/Panel';
+import Controls from "./user/Controls";
+import Panel from "./user/Panel";
 
 export default function HomeLayout({
   children,
@@ -8,7 +8,11 @@ export default function HomeLayout({
 }) {
   return (
     <div>
-      <div className="mt-28 flex phone:flex-col  laptop:flex-row justify-center">
+      <div className="mt-28 flex phone:flex-col  laptop:flex-row laptop:items-start phone:items-center justify-center">
+        <div className="phone:flex laptop:hidden mb-5">
+          <Panel />
+        </div>
+
         <div className="phone:hidden laptop:flex">
           <Controls />
         </div>

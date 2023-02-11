@@ -1,20 +1,22 @@
-'use client';
+"use client";
 
-import { getBanks } from '@/adapters/systemAdapter';
-import { nullBank } from '@/util/globalVars';
-import { BankModel } from '@/util/types';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-
-import './styles.css';
+import { getBanks } from "@/adapters/systemAdapter";
+import { nullBank } from "@/util/globalVars";
+import { BankModel } from "@/util/types";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export default function AccountCreationPage({}) {
   const [bankSelected, setBankSelected] = useState(nullBank);
   const [banks, setBanks] = useState([nullBank]);
+  const [isDropDownClicked, setDropDownClickStatus] = useState(true);
 
   const usernameInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
+  const dropdownContent = useRef<HTMLDivElement>(null);
+  const btnChoices = useRef<HTMLButtonElement[]>([]);
+  const dropDownBtn = useRef<HTMLButtonElement>(null);
 
   const navigator = useRouter();
 
@@ -37,20 +39,77 @@ export default function AccountCreationPage({}) {
     }
   }
 
+  function toggleDropDown() {
+    setDropDownClickStatus((status) => (status = !status));
+
+    if (isDropDownClicked) {
+      handleDropdownMouseOver();
+      handleDropdownBtnMouseOver();
+    } else {
+      handleDropdownMouseLeave();
+      handleDropdownBtnMouseLeave();
+    }
+  }
+
+  function handleDropdownMouseOver() {
+    dropdownContent.current?.classList.add("block");
+    dropdownContent.current?.classList.remove("hidden");
+  }
+
+  function handleDropdownMouseLeave() {
+    dropdownContent.current?.classList.add("hidden");
+    dropdownContent.current?.classList.remove("block");
+  }
+
+  function handleChoiceMouseOver(index: number) {
+    btnChoices.current[index]!.style.backgroundColor = "#f1f1f1";
+  }
+
+  function handleChoiceMouseLeave(index: number) {
+    btnChoices.current[index]!.style.backgroundColor = "white";
+  }
+
+  function handleDropdownBtnMouseOver() {
+    dropDownBtn.current!.style.backgroundColor = "#3e8e41";
+  }
+
+  function handleDropdownBtnMouseLeave() {
+    dropDownBtn.current!.style.backgroundColor = "#457b9d";
+  }
+
   useEffect(() => {
     fetchBanks();
   }, []);
 
   return (
     <div className="phone:p-2 laptop:p-4 flex flex-col items-center justify-center laptop:h-[550px]">
-      <div className="dropdown mb-10 self-center relative inline-block">
-        <button className="dropbtn w-[200px] bg-primary p-3 rounded hover:rounded-b-none text-white">
+      <div
+        onMouseOver={handleDropdownMouseOver}
+        onMouseLeave={handleDropdownMouseLeave}
+        onClick={toggleDropDown}
+        className="dropdown mb-10 self-center inline-block z-10"
+      >
+        <button
+          ref={dropDownBtn}
+          onMouseOver={handleDropdownBtnMouseOver}
+          onMouseLeave={handleDropdownBtnMouseLeave}
+          className="dropbtn w-[200px] bg-primary p-3 rounded hover:rounded-b-none text-white"
+        >
           Select Bank
         </button>
-        <div className="dropdown-content hidden absolute w-[200px] rounded-b-lg bg-white">
-          {banks.map((bank) => (
+
+        <div
+          className="dropdown-content hidden absolute w-[200px] rounded-b-lg bg-white"
+          ref={dropdownContent}
+        >
+          {banks.map((bank, index) => (
             <button
               key={bank.id}
+              ref={(btn) => {
+                if (btn) btnChoices.current[index] = btn;
+              }}
+              onMouseOver={() => handleChoiceMouseOver(index)}
+              onMouseLeave={() => handleChoiceMouseLeave(index)}
               onClick={() => chooseBank(bank)}
               className="text-black p-2 block w-full"
             >
@@ -62,21 +121,14 @@ export default function AccountCreationPage({}) {
 
       <div className="text-center flex flex-row items-center justify-center phone:w-[150px] laptop:w-[400px]">
         <span className="phone:text-xl laptop:text-3xl">Account Creation</span>
-        <Image
-          src={bankSelected.thumbnail}
-          alt="bank thumb"
-          width={80}
-          height={80}
-          className="rounded ml-5 phone:hidden laptop:flex"
-        />
-
-        <Image
-          src={bankSelected.thumbnail}
-          alt="bank thumb"
-          width={50}
-          height={50}
-          className="rounded ml-5 phone:flex laptop:hidden"
-        />
+        <div className="ml-5 laptop:w-[100px] laptop:h-[100px] phone:w-[80px] phone:h-[50px] relative">
+          <Image
+            src={bankSelected.thumbnail}
+            alt="bank thumb"
+            fill
+            className="rounded"
+          />
+        </div>
       </div>
 
       <div className="phone:text-sm laptop:text-xl phone:mt-3 laptop:mt-5">
