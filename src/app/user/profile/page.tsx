@@ -58,28 +58,35 @@ export default function ProfilePage() {
   }, [User!.avatar]);
 
   return (
-    <div className="flex flex-col w-full p-5">
-      <span className="text-4xl self-center">{headerText}</span>
+    <div className="flex flex-col w-full h-full laptop:p-5 phone:p-2 items-center">
+      <span className="laptop:text-4xl phone:text-3xl self-center">
+        {headerText}
+      </span>
 
-      <div className="flex flex-row h-[200px] items-center">
-        <Image
-          src={profileSrc}
-          alt="profile pic"
-          width={150}
-          height={150}
-          className="rounded-full"
-        />
+      <div className="flex flex-row h-[200px] items-center mt-5">
+        <div className="relative laptop:w-[200px] laptop:h-full phone:w-[100px] phone:h-[100px]">
+          <Image
+            src={profileSrc}
+            alt="profile pic"
+            fill
+            className="rounded-full"
+          />
+        </div>
 
         <div className="flex flex-col ml-5">
-          <span className="text-5xl">{User?.username}</span>
-          <span className="text-2xl mt-3">{User?.email}</span>{" "}
+          <span className="laptop:text-5xl phone:text-3xl">
+            {User?.username}
+          </span>
+          <span className="laptop:text-2xl phone:text-lg mt-3">
+            {User?.email}
+          </span>{" "}
         </div>
       </div>
 
-      <div className="mt-5 w-[300px] justify-around flex flex-row items-center">
+      <div className="laptop:mt-5 phone:mt-2 laptop:w-[300px] phone:w-[250px] justify-around flex flex-row items-center">
         <label
           htmlFor="imgInput"
-          className="w-[160px] h-[50px] p-3 text-white text-center mt-5 border-2 bg-primary border-black rounded"
+          className="laptop:w-[160px] phone:w-[100px] h-[50px] laptop:p-3 phone:p-2 text-white laptop:text-md phone:text-sm text-center mt-5 border-2 bg-primary border-black rounded"
         >
           Select new Profile
           <input
