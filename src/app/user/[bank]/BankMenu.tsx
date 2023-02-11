@@ -132,7 +132,7 @@ export default function BankMenu({
             {bank.bankName}
           </span>
 
-          <div className="laptop:w-[80px] laptop:h-[70px] relative ml-5">
+          <div className="laptop:w-[85px] laptop:h-[78px] relative ml-5">
             <Image
               src={bank.thumbnail}
               alt="System? selectedBank.bankName "

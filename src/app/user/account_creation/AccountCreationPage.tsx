@@ -41,7 +41,6 @@ export default function AccountCreationPage({}) {
 
   function toggleDropDown() {
     setDropDownClickStatus((status) => (status = !status));
-    console.log(isDropDownClicked);
 
     if (isDropDownClicked) {
       handleDropdownMouseOver();
@@ -88,7 +87,7 @@ export default function AccountCreationPage({}) {
         onMouseOver={handleDropdownMouseOver}
         onMouseLeave={handleDropdownMouseLeave}
         onClick={toggleDropDown}
-        className="dropdown mb-10 self-center relative inline-block"
+        className="dropdown mb-10 self-center inline-block z-10"
       >
         <button
           ref={dropDownBtn}
@@ -122,21 +121,14 @@ export default function AccountCreationPage({}) {
 
       <div className="text-center flex flex-row items-center justify-center phone:w-[150px] laptop:w-[400px]">
         <span className="phone:text-xl laptop:text-3xl">Account Creation</span>
-        <Image
-          src={bankSelected.thumbnail}
-          alt="bank thumb"
-          width={80}
-          height={80}
-          className="rounded ml-5 phone:hidden laptop:flex"
-        />
-
-        <Image
-          src={bankSelected.thumbnail}
-          alt="bank thumb"
-          width={50}
-          height={50}
-          className="rounded ml-5 phone:flex laptop:hidden"
-        />
+        <div className="ml-5 laptop:w-[100px] laptop:h-[100px] phone:w-[80px] phone:h-[50px] relative">
+          <Image
+            src={bankSelected.thumbnail}
+            alt="bank thumb"
+            fill
+            className="rounded"
+          />
+        </div>
       </div>
 
       <div className="phone:text-sm laptop:text-xl phone:mt-3 laptop:mt-5">
