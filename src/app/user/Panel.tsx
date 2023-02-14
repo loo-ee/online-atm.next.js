@@ -47,6 +47,13 @@ export default function Panel({}) {
     }
   }
 
+  function trimString(text: string | undefined) {
+    if (!text) return "";
+    if (text.length >= 5) text = text.substring(0, 7) + "...";
+
+    return text;
+  }
+
   useEffect(() => {
     fetchAllAcounts();
   }, [User?.email]);
@@ -59,8 +66,12 @@ export default function Panel({}) {
     <div className="laptop:p-5 bg-secondary border-4 border-black rounded-xl p-4 w-[300px] laptop:h-[300px] phone:h-[250px] mt-8">
       <div className="flex flex-row justify-between bg-primary laptop:p-4 rounded p-3">
         <div className="flex flex-col">
-          <span className="text-3xl text-white">{User?.username}</span>
-          <span className="text-md text-gray-200">{User?.email}</span>
+          <span className="text-3xl text-white">
+            {trimString(User?.username)}
+          </span>
+          <span className="text-md text-gray-200">
+            {trimString(User?.email)}
+          </span>
         </div>
 
         <Link href="/user/profile/">
