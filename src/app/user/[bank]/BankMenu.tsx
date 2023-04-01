@@ -1,11 +1,13 @@
 "use client";
 
+import { getAccounts } from "@/adapters/userAdapter";
+import { UserContext } from "@/contexts/UserContext";
 import { nullAccount } from "@/util/globalVars";
 import NumPad from "@/util/Numpad";
 import { AccountModel, BankModel } from "@/util/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ModeSelection from "./ModeSelection";
 import Transactions from "./Transactions";
 
@@ -28,13 +30,10 @@ const colorScheme = {
   },
 };
 
-export default function BankMenu({
-  accounts,
-  bank,
-}: {
-  accounts: AccountModel[];
-  bank: BankModel;
-}) {
+export default function BankMenu({ bank }: { bank: BankModel }) {
+  const User = useContext(UserContext);
+
+  const [accounts, setAccounts] = useState<AccountModel[]>([nullAccount]);
   const [selectedAccount, setSelectedAccount] = useState<AccountModel>(
     accounts[0]
   );
@@ -58,10 +57,18 @@ export default function BankMenu({
     }, 5000);
   }
 
+  async function fetchAccounts() {
+    const foundAccounts = await getAccounts(User!.email, bank.bankName);
+
+    if (foundAccounts) {
+      setAccounts(foundAccounts);
+      setSelectedAccount(foundAccounts[0]);
+    } else navigator.replace("/user/account_creation/");
+  }
+
   useEffect(() => {
-    if (accounts[0].accountNumber == nullAccount.accountNumber)
-      navigator.replace("/user/account_creation/");
-  }, []);
+    fetchAccounts();
+  }, [User?.email]);
 
   return (
     <div className="phone:p-2 laptop:p-4">
