@@ -43,13 +43,14 @@ export default function Header({}) {
         />
 
         <Link href="/user/profile/">
-          <Image
-            src={profileImgSrc}
-            alt="money protection"
-            width={60}
-            height={60}
-            className="rounded-full mt-3 phone:mr-12"
-          />
+          <div className="laptop:w-[80px] laptop:h-[80px] phone:w-[60px] phone:h-[60px] relative mb-3">
+            <Image
+              src={profileImgSrc}
+              alt="money protection"
+              fill
+              className="rounded-full mt-3 phone:mr-12"
+            />
+          </div>
         </Link>
       </div>
     </div>
