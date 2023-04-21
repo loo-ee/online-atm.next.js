@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { validateSession } from '@/adapters/userAdapter';
-import { UserContext } from '@/contexts/UserContext';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { validateSession } from "@/adapters/userAdapter";
+import { UserContext } from "@/contexts/UserContext";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
 
 export default function RouteGuard({
   children,
@@ -15,25 +15,26 @@ export default function RouteGuard({
 
   useEffect(() => {
     const fetchAuthenticatedUser = async (token: string) => {
-      if (token == '') return;
+      if (token == "") return;
 
       try {
         const user = await validateSession(token);
 
-        if (user.detail != 'Invalid token.') {
+        if (user.detail != "Invalid token.") {
           User!.setUser(user);
         } else {
-          navigator.push('/login/');
+          navigator.push("/login/");
         }
       } catch (error) {}
     };
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
-    if (!token) navigator.push('/login/');
-    else {
-      fetchAuthenticatedUser(token);
-    }
+    // if (!token) navigator.push('/login/');
+    // else {
+    //   fetchAuthenticatedUser(token);
+    // }
+    if (token) fetchAuthenticatedUser(token);
   }, []);
 
   return <>{children}</>;
